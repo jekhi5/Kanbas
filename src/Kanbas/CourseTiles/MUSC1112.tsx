@@ -5,7 +5,7 @@ export default function MUSC1112() {
         <div className="wd-dashboard-course">
             <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1112/Home">
-                <img src={require("../../public/images/reactjs.jpg")} alt="react logo" width={200} />
+                <img src={require("../../public/images/Jazz.jpg")} alt="react logo" width={200} />
                 <div>
                     <h5>
                         MUSC1112

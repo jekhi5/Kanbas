@@ -5,7 +5,7 @@ export default function CS4550() {
         <div className="wd-dashboard-course">
             <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/4550/Home">
-                <img src={require("../../public/images/reactjs.jpg")} alt="react logo" width={200} />
+                <img src={require("../../public/images/Software-Engineering.jpg")} alt="react logo" width={200} />
                 <div>
                     <h5>
                         CS4550

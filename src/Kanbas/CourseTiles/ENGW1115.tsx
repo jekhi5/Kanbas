@@ -5,7 +5,7 @@ export default function ENGW1115() {
         <div className="wd-dashboard-course">
             <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1115/Home">
-                <img src={require("../../public/images/reactjs.jpg")} alt="react logo" width={200} />
+                <img src={require("../../public/images/Writing.jpg")} alt="react logo" width={200} />
                 <div>
                     <h5>
                         ENGW1115
