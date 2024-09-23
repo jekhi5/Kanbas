@@ -1,27 +1,32 @@
-import CS1234 from "./CS1234";
-import CS2500 from "./CS2500";
-import CS3000 from "./CS3000";
-import CS3500 from "./CS3500";
-import CS4550 from "./CS4550";
-import ENGW1115 from "./ENGW1115";
-import MUSC1112 from "./MUSC1112";
+import { Navigate, Route, Routes } from "react-router";
+import CoursesNavigation from "./Navigation";
+import { useParams } from 'react-router-dom';
+import Modules from "./Modules";
+import Home from "./Home";
 
 export default function Courses() {
+    const { cid } = useParams();
     return (
-        <div id="wd-dashboard-courses">
-            <CS1234 />
-            <br />
-            <CS2500 />
-            <br />
-            <CS3000 />
-            <br />
-            <CS3500 />
-            <br />
-            <CS4550 />
-            <br />
-            <MUSC1112 />
-            <br />
-            <ENGW1115 />
+        <div id="wd-courses">
+            <h2>Course {cid}</h2>
+            <hr />
+            <table>
+                <tr>
+                    <td valign="top">
+                        <CoursesNavigation />
+                    </td>
+                    <td valign="top">
+                        <Routes>
+                            <Route path="/" element={<Navigate to="Home" />} />
+                            <Route path="Home" element={<Home />} />
+                            <Route path="Modules" element={<Modules />} />
+                            <Route path="Assignments" element={<h2>Assignments</h2>} />
+                            <Route path="Assignments/:aid" element={<h2>Assignment Editor</h2>} />
+                            <Route path="People" element={<h2>People</h2>} />
+                        </Routes>
+                    </td>
+                </tr>
+            </table>
         </div>
     );
 }
