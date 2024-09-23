@@ -5,7 +5,7 @@ export default function CS2500() {
         <div className="wd-dashboard-course">
             <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/2500/Home">
-                <img src={require("../../public/images/reactjs.jpg")} alt="react logo" width={200} />
+                <img src={require("../../public/images/Fundies.jpg")} alt="react logo" width={200} />
                 <div>
                     <h5>
                         CS2500
