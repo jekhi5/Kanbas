@@ -32,7 +32,7 @@ export default function Assignments() {
                                     <h3>
                                         <a className="wd-assignment-link text-dark text-decoration-none"
                                             href="#/Kanbas/Courses/1234/Assignments/123">
-                                            <b>A1 - ENV + HTML</b>
+                                            A1 - ENV + HTML
                                         </a>
                                     </h3>
                                     <span className="text-danger"> Multiple Modules </span> | <span><b>Not Available until</b> May 6 at 12:00am</span> | <span><b>Due</b> May 13 at 11:59pm | 100 pts</span>
@@ -52,7 +52,7 @@ export default function Assignments() {
                                     <h3>
                                         <a className="wd-assignment-link text-dark text-decoration-none"
                                             href="#/Kanbas/Courses/1234/Assignments/123">
-                                            <b>A2 - CSS + BOOTSTRAP</b>
+                                            A2 - CSS + BOOTSTRAP
                                         </a>
                                     </h3>
                                     <span className="text-danger"> Multiple Modules </span>| <span><b>Not Available until</b> May 13 at 12:00am</span> | <span><b>Due</b> May 20 at 11:59pm | 100 pts</span>
@@ -72,7 +72,7 @@ export default function Assignments() {
                                     <h3>
                                         <a className="wd-assignment-link text-dark text-decoration-none"
                                             href="#/Kanbas/Courses/1234/Assignments/123">
-                                            <b>A3 - JAVASCRIPT + REACT</b>
+                                            A3 - JAVASCRIPT + REACT
                                         </a>
                                     </h3>
                                     <span className="text-danger">Multiple Modules</span> | <span><b>Not Available until</b> May 20 at 12:00am</span> | <span><b>Due</b> May 27 at 11:59pm | 100 pts</span>
