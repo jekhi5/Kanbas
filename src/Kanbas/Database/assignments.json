@@ -10,7 +10,7 @@
     "assignmentGroup": "ASSIGNMENTS",
     "submissionType": "Online",
     "displayGradeAs": "Percentage",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": ["Text Entry"],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -25,7 +25,7 @@
     "assignmentGroup": "QUIZZES",
     "submissionType": "Gradescope",
     "displayGradeAs": "Percentage",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -40,7 +40,7 @@
     "assignmentGroup": "EXAMS",
     "submissionType": "Gradescope",
     "displayGradeAs": "Percentage",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -55,7 +55,7 @@
     "assignmentGroup": "PROJECTS",
     "submissionType": "Online",
     "displayGradeAs": "Points",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -70,7 +70,7 @@
     "assignmentGroup": "ASSIGNMENTS",
     "submissionType": "Gradescope",
     "displayGradeAs": "Points",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -85,7 +85,7 @@
     "assignmentGroup": "QUIZZES",
     "submissionType": "Online",
     "displayGradeAs": "Points",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -100,7 +100,7 @@
     "assignmentGroup": "PROJECTS",
     "submissionType": "In person",
     "displayGradeAs": "Letter",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -115,7 +115,7 @@
     "assignmentGroup": "PROJECTS",
     "submissionType": "In person",
     "displayGradeAs": "Letter",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   },
@@ -130,7 +130,7 @@
     "assignmentGroup": "ASSIGNMENTS",
     "submissionType": "In person",
     "displayGradeAs": "Letter",
-    "onlineEntryOption": [],
+    "onlineEntryOptions": [],
     "assignTo": "Everyone",
     "availableUntil": "2028-05-09"
   }
