@@ -26,6 +26,28 @@
             "description": "This is an open response",
             "type": "Open-Response",
             "points": "10"
+        },
+        {
+            "description": "This is a multiple choice question",
+            "type": "Multiple-Choice",
+            "points": "10",
+            "answerChoices": [{
+                    "choice": "Choice 1",
+                    "isCorrect": "False"
+                },
+                {
+                    "choice": "Choice 2",
+                    "isCorrect": "True"
+                },
+                {
+                    "choice": "Choice 3",
+                    "isCorrect": "False"
+                },
+                {
+                    "choice": "Choice 4",
+                    "isCorrect": "False"
+                }
+            ]
         }
     ]
     }

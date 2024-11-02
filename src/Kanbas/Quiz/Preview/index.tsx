@@ -1,36 +1,52 @@
 import { useParams } from "react-router-dom";
 import * as db from "../../Database";
 import { Moment } from "moment";
-import TrueFalseQuestion from "./MultipleChoice";
+import TrueFalseQuestion from "./TrueFalse";
 import OpenResponse from "./OpenResponse";
 import moment from "moment";
 import { CgPentagonRight } from "react-icons/cg";
 import { useState } from "react";
+import MultipleChoiceQuestion from "./MultipleChoice";
 
 export default function ActiveQuiz() {
-    const { cid, qid } = useParams();
+    const { qid } = useParams();
     const quiz = db.default.quizzes.find((quiz) => quiz._id === qid);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+    if (!quiz) {
+        return <div>Quiz not found!</div>
+    }
+
     const DATE_TIME_FORMAT = 'MMM D [at] h:mma';
     let start_time: Moment = moment();
     const format_time = start_time.format(DATE_TIME_FORMAT);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const currentQuestion = quiz?.questions[currentQuestionIndex];
+    const currentQuestion = quiz.questions[currentQuestionIndex];
     const handleNextQuestion = () => {
         // Check if there are more questions to show
-        if (currentQuestionIndex < (quiz?.questions.length || 0) - 1) {
+        if (currentQuestionIndex < (quiz.questions.length || 0) - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             alert("Submitted!");
         }
     };
+
+    if (!currentQuestion) {
+        return <div>Invalid Quiz! No Questions!</div>
+    }
+
     const showQuestionContent = () => {
-        switch (currentQuestion?.type) {
+        switch (currentQuestion.type) {
             case 'True-False':
                 return (<TrueFalseQuestion />);
             case 'Open-Response':
                 return (<OpenResponse />);
+            case 'Multiple-Choice':
+                if (!currentQuestion.answerChoices) {
+                    return <p>Invalid Multiple Choice Question! No answer choices provided!</p>;
+                }
+                return (<MultipleChoiceQuestion question={currentQuestion} />);
             default:
-                return (<p>Invalid</p>);
+                return (<p>Invalid Question Type: {currentQuestion.type}</p>);
         }
     };
 
@@ -55,7 +71,7 @@ export default function ActiveQuiz() {
                                 <h4 className="wd-text-strong">
                                     <div className="d-flex mb-3">
                                         <div className="p-2">
-                                            Question {currentQuestion?.number}
+                                            Question {currentQuestion.number}
                                         </div>
                                         <div className="ms-auto p-2">
                                             {currentQuestion?.points} pts
@@ -66,7 +82,7 @@ export default function ActiveQuiz() {
                             <ul className="wd-assignments list-group rounded-0">
                                 <li className="list-group-item p-3 ps-1">
                                     <div className="d-flex mb-3">
-                                        {currentQuestion?.description}
+                                        {currentQuestion.description}
                                     </div>
                                     {showQuestionContent()}
                                 </li>
