@@ -17,18 +17,18 @@
       "questions": [{
         
             "number": "1",
-            "description": "An HTML label element can be associated with HTML input element by setting their id attributes to the same value. The resulting effect is that when you click on the label text, the input element receives focus as if you had click on the input element itself",
+            "questionText": "An HTML label element can be associated with HTML input element by setting their id attributes to the same value. The resulting effect is that when you click on the label text, the input element receives focus as if you had click on the input element itself",
             "type": "True-False",
             "points": "5"
         },
         {
             "number": "2",
-            "description": "This is an open response",
+            "questionText": "This is an open response",
             "type": "Open-Response",
             "points": "10"
         },
         {
-            "description": "This is a multiple choice question",
+            "questionText": "This is a multiple choice question",
             "type": "Multiple-Choice",
             "points": "10",
             "answerChoices": [{

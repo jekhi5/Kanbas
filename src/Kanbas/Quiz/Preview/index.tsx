@@ -82,7 +82,7 @@ export default function ActiveQuiz() {
                             <ul className="wd-assignments list-group rounded-0">
                                 <li className="list-group-item p-3 ps-1">
                                     <div className="d-flex mb-3">
-                                        {currentQuestion.description}
+                                        {currentQuestion.questionText}
                                     </div>
                                     {showQuestionContent()}
                                 </li>
