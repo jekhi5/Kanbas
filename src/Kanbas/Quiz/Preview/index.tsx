@@ -8,7 +8,7 @@ import { CgPentagonRight } from "react-icons/cg";
 import { useState } from "react";
 
 export default function ActiveQuiz() {
-    const { cid, qid } = useParams();
+    const { qid } = useParams();
     const quiz = db.default.quizzes.find((quiz) => quiz._id === qid);
     const DATE_TIME_FORMAT = 'MMM D [at] h:mma'; 
     let start_time: Moment = moment();
