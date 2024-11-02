@@ -1,7 +1,7 @@
 export default function MultipleChoiceQuestion(
     { question }: { question: { description: string, points: string, answerChoices: { choice: string }[] } }) {
 
-    return (!question ? <p>Invalid Quiz</p> :
+    return (!question ? <p>Invalid Question</p> :
         <div className="mb-3 ps-3 ps-1">
             <hr />
             <ul style={{ listStyleType: 'none' }}>
