@@ -20,9 +20,6 @@ export default function QuizControls() {
                         <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
                             <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
                             Quiz</button>
-                        <button id="wd-add-module-btn" className="btn btn-lg btn-secondary me-1 float-end">
-                            <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-                            Group</button>
                     </div>
                 </div>
             </div>
