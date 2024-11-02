@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 import { format } from 'date-fns';
 
 
-export default function Assignments() {
+export default function Quizzes() {
     const { cid } = useParams();
     const quizzes = db.default.quizzes;
 
@@ -42,7 +42,7 @@ export default function Assignments() {
                                         <div className="p-2 my-auto">
                                             <h3>
                                                 <a className="wd-quiz-link text-dark text-decoration-none"
-                                                    href={`#/Kanbas/Courses/${cid}/quiz/${quiz._id}`}>
+                                                    href={`#/Kanbas/Courses/${cid}/quizzes/${quiz._id}`}>
                                                     {quiz.title}
                                                 </a>
                                             </h3>
