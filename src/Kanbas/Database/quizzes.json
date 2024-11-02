@@ -18,13 +18,13 @@
         
             "number": "1",
             "description": "An HTML label element can be associated with HTML input element by setting their id attributes to the same value. The resulting effect is that when you click on the label text, the input element receives focus as if you had click on the input element itself",
-            "type": "Multiple Choice",
+            "type": "True-False",
             "points": "5"
         },
         {
             "number": "2",
             "description": "This is an open response",
-            "type": "Open Response",
+            "type": "Open-Response",
             "points": "10"
         }
     ]

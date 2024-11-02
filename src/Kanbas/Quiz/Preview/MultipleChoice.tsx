@@ -1,4 +1,4 @@
-export default function MultipleChoice() {
+export default function TrueFalseQuestion() {
     return (
         <div className="mb-3 ps-3 ps-1">
             <hr />
