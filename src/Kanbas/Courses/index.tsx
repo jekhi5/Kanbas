@@ -8,6 +8,7 @@ import ActiveQuiz from "../Quiz/Preview";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import * as db from "../Database";
+import Quizzes from "./Quizzes";
 
 export default function Courses() {
     const { cid } = useParams();
@@ -32,6 +33,7 @@ export default function Courses() {
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
                         <Route path="Assignments" element={<Assignments />} />
+                        <Route path="Quizzes" element={<Quizzes />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Quizzes/:qid" element={<ActiveQuiz />} />
                         <Route path="People" element={<PeopleTable />} />
