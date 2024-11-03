@@ -4,7 +4,6 @@ import { FaPlus } from "react-icons/fa";
 export default function QuizControls() {
     return (
         <div id="wd-quizzes">
-            <div id="wd-quizzes">
                 <div className="row mb-4">
                     <div className="col-6">
                         <div className="input-group mb-3">
@@ -23,6 +22,5 @@ export default function QuizControls() {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
