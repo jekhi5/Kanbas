@@ -48,7 +48,7 @@ export default function AssignmentEditor() {
 
     const saveAssignment = () => {
         const newAssignment = {
-            title,
+            title: title.length > 0 ? title : "Untitled Assignment",
             course,
             releaseDate,
             dueDate,
@@ -61,8 +61,6 @@ export default function AssignmentEditor() {
             assignTo,
             availableUntil,
         };
-
-        console.log("NEW ASSIGNMENT: ", newAssignment);
 
         if (creatingNewAssignment) {
             dispatch(addAssignment(newAssignment));
