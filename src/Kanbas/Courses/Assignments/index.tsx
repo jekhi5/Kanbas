@@ -7,6 +7,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import * as db from "../../Database";
 import { useParams } from "react-router";
 import { format } from 'date-fns';
+import ProtectedContent from "../../Account/ProtectedContent";
 
 
 export default function Assignments() {
@@ -17,14 +18,20 @@ export default function Assignments() {
 
     return (
         <div>
-            <AssignmentsControls />
+            <ProtectedContent role="FACULTY">
+                <AssignmentsControls />
+            </ProtectedContent>
             <ul id="wd-assignment-list" className="list-group rounded-0">
                 <li className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">
                     <div className="wd-title p-3 ps-2 bg-secondary">
-                        <BsGripVertical className="me-2 fs-3" />
+                        <ProtectedContent role="FACULTY">
+                            <BsGripVertical className="me-2 fs-3" />
+                        </ProtectedContent>
                         <IoIosArrowDown />
                         <span className="px-3"><b>ASSIGNMENTS</b></span>
-                        <AssignmentHeadingControlButtons />
+                        <ProtectedContent role="FACULTY">
+                            <AssignmentHeadingControlButtons />
+                        </ProtectedContent>
                         <div className="float-end">
                             <span className="border border-dark p-2 rounded-5">40% of Total</span>
                         </div>
@@ -36,7 +43,9 @@ export default function Assignments() {
                                 <li className="wd-assignment-list-item list-group-item p-3 ps-1 py-0">
                                     <div className="d-flex mb-3">
                                         <div className="p-2 my-auto">
-                                            <BsGripVertical className="me-2 fs-3" />
+                                            <ProtectedContent role="FACULTY">
+                                                <BsGripVertical className="me-2 fs-3" />
+                                            </ProtectedContent>
                                             <PiNotePencilDuotone className="me-2 fs-5" />
                                         </div>
                                         <div className="p-2 my-auto">
@@ -49,7 +58,9 @@ export default function Assignments() {
                                             <span className="text-danger"> Multiple Modules </span> | {(Date.parse(assignment.releaseDate.replace(/-/g, " ")) > todaysDate) ? <span><b>Not Available until </b>{format(assignment.releaseDate, "MMMM d 'at' hh:mma") + ' |'}</span> : ''} <span><b>Due</b> {format(assignment.dueDate, "MMMM d 'at' hh:mma")} | {assignment.points} pts</span>
                                         </div>
                                         <div className="ms-auto p-2 my-auto">
-                                            <AssignmentControlButtons />
+                                            <ProtectedContent role="FACULTY">
+                                                <AssignmentControlButtons />
+                                            </ProtectedContent>
                                         </div>
                                     </div>
                                 </li>))}

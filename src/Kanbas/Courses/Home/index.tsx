@@ -1,3 +1,4 @@
+import ProtectedContent from "../../Account/ProtectedContent";
 import Modules from "../Modules";
 import CourseStatus from "./status";
 export default function Home() {
@@ -7,7 +8,9 @@ export default function Home() {
                 <Modules />
             </div>
             <div className="d-none d-md-block">
-                <CourseStatus />
+                <ProtectedContent role="FACULTY">
+                    <CourseStatus />
+                </ProtectedContent>
             </div>
         </div>
     );
