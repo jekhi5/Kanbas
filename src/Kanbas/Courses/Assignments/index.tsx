@@ -4,15 +4,15 @@ import AssignmentControlButtons from "./AssignmentControlButton";
 import AssignmentHeadingControlButtons from "./AssignmentHeadingControlButtons";
 import { PiNotePencilDuotone } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
-import * as db from "../../Database";
 import { useParams } from "react-router";
 import { format } from 'date-fns';
 import ProtectedContent from "../../Account/ProtectedContent";
+import { useSelector } from "react-redux";
 
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.assignments;
+    const { assignments } = useSelector((state: any) => state.assignmentReducer);
 
     const todaysDate = new Date().setHours(0, 0, 0, 0);
 
