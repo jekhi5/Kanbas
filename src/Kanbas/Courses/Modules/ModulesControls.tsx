@@ -1,13 +1,17 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "../GreenCheckmark";
 import { CiNoWaitingSign } from "react-icons/ci";
-
-export default function ModulesControls() {
+import ModuleEditor from "./ModuleEditor";
+export default function ModulesControls(
+    { moduleName, setModuleName, addModule }:
+        { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
     return (
         <div id="wd-modules-controls" className="text-nowrap">
-            <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
+            <button className="btn btn-lg btn-danger me-1 float-end" id="wd-add-module-btn"
+                data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog" >
                 <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-                Module</button>
+                Module
+            </button>
             <div className="dropdown d-inline me-1 float-end">
                 <button id="wd-publish-all-btn" className="btn btn-lg btn-secondary dropdown-toggle"
                     type="button" data-bs-toggle="dropdown">
@@ -37,6 +41,8 @@ export default function ModulesControls() {
                         </a>
                     </li>
                 </ul>
+                <ModuleEditor dialogTitle="Add Module" moduleName={moduleName}
+                    setModuleName={setModuleName} addModule={addModule} />
             </div>
             <button id="wd-view-progress" className="btn btn-lg btn-secondary float-end me-1" type="button">
                 View Progress

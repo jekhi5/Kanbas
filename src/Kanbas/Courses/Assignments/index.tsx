@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.default.assignments;
+    const assignments = db.assignments;
 
     const todaysDate = new Date().setHours(0, 0, 0, 0);
 

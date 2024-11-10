@@ -3,7 +3,7 @@ import * as db from "../../Database";
 import { Link } from "react-router-dom";
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
-    const assignment = db.default.assignments.find((assignment: any) => assignment._id === aid);
+    const assignment = db.assignments.find((assignment: any) => assignment._id === aid);
     const assignmentGroupOptions = ["ASSIGNMENTS", "QUIZZES", "EXAMS", "PROJECTS"];
     const gradeDisplayOptions = ["Percentage", "Points", "Letter"]
     const submissionType = ["Online", "In person", "Gradescope"]

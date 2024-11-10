@@ -1,9 +1,8 @@
 import { FaUserCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import * as db from "../../Database";
+import { users, enrollments } from "../../Database";
 export default function PeopleTable() {
     const { cid } = useParams();
-    const { users, enrollments } = db.default;
 
     return (
         <div id="wd-people-table">
