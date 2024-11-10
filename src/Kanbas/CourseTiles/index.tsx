@@ -8,20 +8,22 @@ import MUSC1112 from "./MUSC1112";
 
 export default function Courses() {
     return (
-        <div id="wd-dashboard-courses">
-            <CS1234 />
-            <br />
-            <CS2500 />
-            <br />
-            <CS3000 />
-            <br />
-            <CS3500 />
-            <br />
-            <CS4550 />
-            <br />
-            <MUSC1112 />
-            <br />
-            <ENGW1115 />
+        <div id="wd-dashboard-courses" className="row">
+            <div className="row row-cols-1 row-cols-md-5 g-4">
+                <CS1234 />
+                <br />
+                <CS2500 />
+                <br />
+                <CS3000 />
+                <br />
+                <CS3500 />
+                <br />
+                <CS4550 />
+                <br />
+                <MUSC1112 />
+                <br />
+                <ENGW1115 />
+            </div>
         </div>
     );
 }
