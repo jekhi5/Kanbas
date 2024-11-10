@@ -7,12 +7,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useParams } from "react-router";
 import { format } from 'date-fns';
 import ProtectedContent from "../../Account/ProtectedContent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
+import { FaTrash } from "react-icons/fa";
+import DeleteAssignmentModal from "./DeleteAssignmentModal";
+import { useState } from "react";
 
 
 export default function Assignments() {
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentReducer);
+    const dispatch = useDispatch();
+    const [assignmentToDelete, setAssignmentToDelete] = useState({ _id: '', title: '' });
 
     const todaysDate = new Date().setHours(0, 0, 0, 0);
 
@@ -42,7 +48,7 @@ export default function Assignments() {
                             .map((assignment: any) => (
                                 <li className="wd-assignment-list-item list-group-item p-3 ps-1 py-0">
                                     <div className="d-flex mb-3">
-                                        <div className="p-2 my-auto">
+                                        <div className="p-2 my-auto flex-shrink-0">
                                             <ProtectedContent role="FACULTY">
                                                 <BsGripVertical className="me-2 fs-3" />
                                             </ProtectedContent>
@@ -55,18 +61,23 @@ export default function Assignments() {
                                                     {assignment.title}
                                                 </a>
                                             </h3>
-                                            <span className="text-danger"> Multiple Modules </span> | {(Date.parse(assignment.releaseDate.replace(/-/g, " ")) > todaysDate) ? <span><b>Not Available until </b>{format(assignment.releaseDate, "MMMM d 'at' hh:mma") + ' |'}</span> : ''} <span><b>Due</b> {format(assignment.dueDate, "MMMM d 'at' hh:mma")} | {assignment.points} pts</span>
+                                            <span className="text-danger"> Multiple Modules </span> {assignment.releaseDate && (Date.parse(assignment.releaseDate.replace(/-/g, " ")) > todaysDate) ? <span> | <b>Not Available until </b>{format(assignment.releaseDate, "MMMM d 'at' hh:mma") + ' |'}</span> : ''} {assignment.dueDate && <span> | <b>Due</b> {format(assignment.dueDate, "MMMM d 'at' hh:mma")}</span>}{assignment.points && <span> | {assignment.points} pts</span>}
                                         </div>
-                                        <div className="ms-auto p-2 my-auto">
+                                        <div className="ms-auto p-2 my-auto flex-shrink-0">
                                             <ProtectedContent role="FACULTY">
-                                                <AssignmentControlButtons />
+                                                <div className="d-flex align-items-center">
+                                                    <AssignmentControlButtons />
+                                                    <FaTrash className="text-danger me-1" id="wd-delete-assignment-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#wd-delete-assignment-dialog" onClick={() => setAssignmentToDelete(assignment)} />
+                                                </div>
+                                                <DeleteAssignmentModal assignmentTitle={assignmentToDelete.title} deleteAssignment={() => dispatch(deleteAssignment(assignmentToDelete._id))} />
                                             </ProtectedContent>
                                         </div>
                                     </div>
                                 </li>))}
                     </ul>
                 </li>
-            </ul>
+            </ul >
         </div >
     );
 }
