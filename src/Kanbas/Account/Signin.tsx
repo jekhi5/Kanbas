@@ -19,10 +19,10 @@ export default function Signin() {
     return (
         <div id="wd-signin-screen">
             <h1>Sign in</h1>
-            <input defaultValue={credentials.username}
+            <input value={credentials.username}
                 onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                 id="wd-username" placeholder="username" className="form-control mb-2" />
-            <input defaultValue={credentials.password}
+            <input value={credentials.password}
                 onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                 id="wd-password" placeholder="password" type="password" className="form-control mb-2" />
             <button onClick={signin} id="wd-signin-btn" className="btn btn-primary w-100 mb-2">Sign in </button>
