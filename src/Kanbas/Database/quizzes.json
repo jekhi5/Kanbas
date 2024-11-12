@@ -14,8 +14,17 @@
       "onlineEntryOptions": ["Text Entry"],
       "assignTo": "Everyone",
       "availableUntil": "2028-05-09",
+      "assignmentGroup": "A1",
+      "timeLimitInMinutes": "100",
+      "multipleAttempts": "Yes",
+      "viewResponses": "Yes",
+      "showCorrectAnswers": "Yes",
+      "oneQuestionAtATime": "Yes",
+      "requireLockdownBrowser": "No",
+      "requireToViewResults": "Yes",
+      "requireWebcam": "No",
+      "lockAfterAnswering": "No",
       "questions": [{
-        
             "number": "1",
             "questionText": "An HTML label element can be associated with HTML input element by setting their id attributes to the same value. The resulting effect is that when you click on the label text, the input element receives focus as if you had click on the input element itself",
             "type": "True-False",

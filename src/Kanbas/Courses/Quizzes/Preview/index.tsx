@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import * as db from "../../Database";
+import * as db from "../../../Database";
 import { Moment } from "moment";
 import TrueFalseQuestion from "./TrueFalse";
 import OpenResponse from "./OpenResponse";
