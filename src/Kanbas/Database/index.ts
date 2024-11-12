@@ -11,5 +11,5 @@ export default {
   assignments,
   users,
   enrollments,
-  quizzes
+  quizzes,
 };
