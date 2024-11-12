@@ -8,7 +8,6 @@ import QuizEditor from "./Quizzes/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import * as db from "../Database";
-
 export default function Courses() {
     const { cid } = useParams();
     const { pathname } = useLocation();
@@ -35,7 +34,6 @@ export default function Courses() {
                     <CoursesNavigation />
                 </div>
                 <div className="flex-fill ">
-
                     <Routes>
                         <Route path="/" element={<Navigate to="Home" />} />
                         <Route path="Home" element={<Home />} />
