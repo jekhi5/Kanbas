@@ -48,6 +48,3 @@ export default function Courses({ courses }: { courses: any[]; }) {
                     </Routes>
                 </div>
             </div>
-        </div>
-    );
-}
