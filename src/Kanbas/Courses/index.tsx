@@ -4,7 +4,7 @@ import Modules from './Modules';
 import Home from './Home';
 import Assignments from './Assignments';
 import AssignmentEditor from './Assignments/Editor';
-import QuizEditor from './Quizzes/Editor';
+import QuizEditor from './Quizzes/temp-editor';
 import { FaAlignJustify } from 'react-icons/fa';
 import PeopleTable from './People/Table';
 import * as db from '../Database';
