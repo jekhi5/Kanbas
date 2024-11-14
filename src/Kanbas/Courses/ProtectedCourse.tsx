@@ -10,7 +10,9 @@ export default function ProtectedCourse({ children }: { children: any }) {
         enrollment &&
         enrollment.user === currentUser._id &&
         enrollment.course === cid
-    )
-    ? children
-    : <Navigate to="/Kanbas/Dashboard" />;
+    ) ? (
+    children
+  ) : (
+    <Navigate to="/Kanbas/Dashboard" />
+  );
 }

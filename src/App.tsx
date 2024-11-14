@@ -1,9 +1,9 @@
-import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
-import Labs from "./Labs";
+import Labs from './Labs';
 import Kanbas from './Kanbas';
-import { Provider } from "react-redux";
-import store from "./Kanbas/store";
+import { Provider } from 'react-redux';
+import store from './Kanbas/store';
 
 function App() {
   return (
