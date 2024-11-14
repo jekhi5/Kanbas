@@ -1,15 +1,13 @@
 import { format } from 'date-fns';
 import { SetStateAction, useState } from 'react';
-import { FaAlignJustify } from 'react-icons/fa';
 import ThreeDotsElement from './ThreeDotsElement';
 import NotPublishedElement from './NotPublishedElement';
-import QuizTypeSelector from './QuizTypeSelector';
 import { useParams } from 'react-router';
 import * as db from '../../Database';
 
 export default function QuizEditor() {
-  const { cid, qid } = useParams();
-  const quizzes = db.default.quizzes;
+  const { qid } = useParams();
+  const quizzes = db.quizzes;
 
   console.log(qid);
 
