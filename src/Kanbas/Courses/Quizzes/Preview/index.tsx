@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import * as db from '../../../Database';
+import { quizzes } from '../../../Database';
 import { Moment } from 'moment';
 import TrueFalseQuestion from './TrueFalse';
 import OpenResponse from './OpenResponse';
@@ -10,7 +10,7 @@ import MultipleChoiceQuestion from './MultipleChoice';
 
 export default function ActiveQuiz() {
   const { qid } = useParams();
-  const quiz = db.default.quizzes.find((quiz) => quiz._id === qid);
+  const quiz = quizzes.find((quiz) => quiz._id === qid);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   if (!quiz) {

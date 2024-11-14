@@ -3,13 +3,10 @@ import { SetStateAction, useState } from 'react';
 import ThreeDotsElement from './ThreeDotsElement';
 import NotPublishedElement from './NotPublishedElement';
 import { useParams } from 'react-router';
-import * as db from '../../Database';
+import { quizzes } from '../../Database';
 
 export default function QuizEditor() {
   const { qid } = useParams();
-  const quizzes = db.quizzes;
-
-  console.log(qid);
 
   const quiz = quizzes.find((quiz) => quiz._id === qid);
 
