@@ -62,12 +62,18 @@ export default function Assignments() {
                     </div>
                     <div className="p-2 my-auto">
                       <h3>
-                        <a
-                          className="wd-assignment-link text-dark text-decoration-none"
-                          href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                        >
+                        <ProtectedContent role="FACULTY">
+                          <a
+                            className="wd-assignment-link text-dark text-decoration-none"
+                            href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                          >
+                            {assignment.title}
+                          </a>
+                        </ProtectedContent>
+
+                        <ProtectedContent role="STUDENT">
                           {assignment.title}
-                        </a>
+                        </ProtectedContent>
                       </h3>
                       <span className="text-danger"> Multiple Modules </span>{' '}
                       {assignment.releaseDate &&
