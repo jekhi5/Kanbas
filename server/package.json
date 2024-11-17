@@ -1,10 +1,13 @@
 {
+  "type": "module",
   "name": "server",
   "version": "1.0.0",
   "description": "The server for the Kanbas-React-Web-App",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "start-mon": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24/issues"
   },
-  "homepage": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24#readme"
+  "homepage": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
 }
