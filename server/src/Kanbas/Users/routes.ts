@@ -1,7 +1,8 @@
 import { Express } from 'express-serve-static-core';
 import { Request, Response } from 'express';
 import * as dao from './dao.js';
-let currentUser = null;
+import { User } from '../types.js';
+let currentUser: User | null = null;
 export default function UserRoutes(app: Express) {
   const createUser = (req: Request, res: Response) => {};
   const deleteUser = (req: Request, res: Response) => {};
@@ -20,7 +21,12 @@ export default function UserRoutes(app: Express) {
       return;
     }
     dao.updateUser(userId, userUpdates);
-    currentUser = dao.findUserById(userId);
+    const foundUser = dao.findUserById(userId);
+    if (!foundUser || foundUser === undefined) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+    currentUser = foundUser;
     res.json(currentUser);
   };
   const signup = (req: Request, res: Response) => {
@@ -34,11 +40,21 @@ export default function UserRoutes(app: Express) {
   };
   const signin = (req: Request, res: Response) => {
     const { username, password } = req.body;
-    currentUser = dao.findUserByCredentials(username, password);
+    const foundUser = dao.findUserByCredentials(username, password);
+    if (!foundUser || foundUser === undefined) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+    currentUser = foundUser;
     res.json(currentUser);
   };
-  const signout = (req: Request, res: Response) => {};
-  const profile = (req: Request, res: Response) => {};
+  const signout = (req: Request, res: Response) => {
+    currentUser = null;
+    res.sendStatus(200);
+  };
+  const profile = (req: Request, res: Response) => {
+    res.json(currentUser);
+  };
   app.post('/api/users', createUser);
   app.get('/api/users', findAllUsers);
   app.get('/api/users/:userId', findUserById);

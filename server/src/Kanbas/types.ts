@@ -6,7 +6,7 @@ export type User = {
   lastName: string;
   email: string;
   dob: string;
-  role: 'FACULTY' | 'STUDENT';
+  role: string;
   loginId: string;
   section: string;
   lastActivity: string;
