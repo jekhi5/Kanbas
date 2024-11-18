@@ -3,11 +3,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "The server for the Kanbas-React-Web-App",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "start-mon": "nodemon index.js"
+    "start": "nodemon dist/index.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -29,6 +27,12 @@
     "url": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24/issues"
   },
   "homepage": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.1"
