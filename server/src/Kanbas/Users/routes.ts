@@ -2,7 +2,12 @@ import { Express } from 'express-serve-static-core';
 import { Request, Response } from 'express';
 import * as dao from './dao.js';
 import { User } from '../types.js';
-let currentUser: User | null = null;
+
+declare module 'express-session' {
+  interface SessionData {
+    currentUser: any; // You can replace 'any' with a more specific type if you have one
+  }
+}
 export default function UserRoutes(app: Express) {
   const createUser = (req: Request, res: Response) => {};
   const deleteUser = (req: Request, res: Response) => {};
@@ -21,12 +26,12 @@ export default function UserRoutes(app: Express) {
       return;
     }
     dao.updateUser(userId, userUpdates);
-    const foundUser = dao.findUserById(userId);
-    if (!foundUser || foundUser === undefined) {
+    const currentUser = dao.findUserById(userId);
+    if (!currentUser || currentUser === undefined) {
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
-    currentUser = foundUser;
+    req.session['currentUser'] = currentUser;
     res.json(currentUser);
   };
   const signup = (req: Request, res: Response) => {
@@ -35,24 +40,37 @@ export default function UserRoutes(app: Express) {
       res.status(400).json({ message: 'Username already in use' });
       return;
     }
-    currentUser = dao.createUser(req.body);
+    const currentUser = dao.createUser(req.body);
+    req.session['currentUser'] = currentUser;
     res.json(currentUser);
   };
   const signin = (req: Request, res: Response) => {
     const { username, password } = req.body;
-    const foundUser = dao.findUserByCredentials(username, password);
-    if (!foundUser || foundUser === undefined) {
-      res.status(401).json({ message: 'Invalid credentials' });
-      return;
+    const currentUser = dao.findUserByCredentials(username, password);
+    if (currentUser) {
+      req.session['currentUser'] = currentUser;
+      res.json(currentUser);
+    } else {
+      res.status(401).json({ message: 'Unable to login. Try again later.' });
     }
-    currentUser = foundUser;
-    res.json(currentUser);
   };
   const signout = (req: Request, res: Response) => {
-    currentUser = null;
-    res.sendStatus(200);
+    req.session.destroy((err) => {
+      if (err) {
+        res
+          .status(500)
+          .json({ message: 'Unable to sign out. Try again later.' });
+      } else {
+        res.sendStatus(200);
+      }
+    });
   };
   const profile = (req: Request, res: Response) => {
+    const currentUser = req.session['currentUser'];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
     res.json(currentUser);
   };
   app.post('/api/users', createUser);
