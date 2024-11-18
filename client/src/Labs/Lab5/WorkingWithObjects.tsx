@@ -53,7 +53,6 @@ export default function WorkingWithObjects() {
         Get Name
       </a>
       <hr />
-      <hr />
       <h3 id="wd-working-with-objects">Working With Objects</h3>
       <h4>Modifying Properties</h4>
       <div className="d-flex align-items-center mb-2">
@@ -142,6 +141,7 @@ export default function WorkingWithObjects() {
           Update Description
         </a>
       </div>
+      <hr />
     </div>
   );
 }
