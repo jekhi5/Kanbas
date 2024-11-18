@@ -116,7 +116,7 @@ export default function WorkingWithArrays() {
       <input
         checked={todo.completed}
         type="checkbox"
-        className="float-start"
+        className="float-start form-check-input"
         onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
       />
       <br />

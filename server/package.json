@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.1"
   }
 }
