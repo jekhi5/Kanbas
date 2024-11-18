@@ -23,12 +23,16 @@ export default function ActiveQuiz() {
     const currentQuestion = quiz.questions[currentQuestionIndex];
     const handleNextQuestion = () => {
         // Check if there are more questions to show
-        if (currentQuestionIndex < (quiz.questions.length || 0) - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            alert("Submitted!");
-        }
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
     };
+
+    const handlePreviousQuestion = () => {
+        setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+
+    const handleSubmit = () => {
+        alert('submit');
+    }
 
     if (!currentQuestion) {
         return <div>Invalid Quiz! No Questions!</div>
@@ -92,11 +96,22 @@ export default function ActiveQuiz() {
                 </div>
             </div>
 
-            <div className="d-flex justify-content-end border-black" style={{ marginRight: '19%' }}>
-                <button id="wd-cancel" className="btn btn-secondary w-30 me-1"
+            <div className='d-flex justify-content-start' style={{ marginLeft: '5%' }}>
+                {0 < currentQuestionIndex &&
+                <button id="wd-last" className="btn btn-secondary w-30 me-1"
+                    onClick={handlePreviousQuestion}>
+                    Previous
+                </button>}
+            </div>
+            <div className='d-flex justify-content-end' style={{ marginRight: '18%' }}>
+                {quiz.questions.length-1 > currentQuestionIndex ?
+                <button id="wd-next" className="btn btn-secondary w-30 me-1"
                     onClick={handleNextQuestion}>
                     Next
-                </button>
+                </button> : 
+                <button id="wd-submit" className="btn btn-danger w-30 me-1" onClick={handleSubmit}>
+                    Submit
+                </button>}
             </div>
 
         </div>
