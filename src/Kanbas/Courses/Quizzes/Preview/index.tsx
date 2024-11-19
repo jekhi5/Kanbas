@@ -10,7 +10,7 @@ import MultipleChoiceQuestion from "./MultipleChoice";
 
 export default function ActiveQuiz() {
     const { qid } = useParams();
-    const quiz = db.default.quizzes.find((quiz) => quiz._id === qid);
+    const quiz = db.quizzes.find((quiz) => quiz._id === qid);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     if (!quiz) {
@@ -41,14 +41,14 @@ export default function ActiveQuiz() {
     const showQuestionContent = () => {
         switch (currentQuestion.type) {
             case 'True-False':
-                return (<TrueFalseQuestion />);
+                return (<TrueFalseQuestion qid={qid} question={currentQuestion} />);
             case 'Open-Response':
-                return (<OpenResponse />);
+                return (<OpenResponse qid={qid} question={currentQuestion} />);
             case 'Multiple-Choice':
                 if (!currentQuestion.answerChoices) {
                     return <p>Invalid Multiple Choice Question! No answer choices provided!</p>;
                 }
-                return (<MultipleChoiceQuestion question={currentQuestion} />);
+                return (<MultipleChoiceQuestion qid={qid} question={currentQuestion} />);
             default:
                 return (<p>Invalid Question Type: {currentQuestion.type}</p>);
         }
