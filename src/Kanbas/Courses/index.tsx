@@ -9,8 +9,8 @@ import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import * as db from "../Database";
 import Quizzes from "./Quizzes";
-import QuizDetails from "./Quizzes/Details";
-import QuizEditor from "./Quizzes/Editor";
+import QuizDetails from "./Quizzes/details";
+import QuizEditor from "./Quizzes/editor";
 
 export default function Courses() {
     const { cid } = useParams();

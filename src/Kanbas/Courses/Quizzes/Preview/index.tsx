@@ -96,7 +96,8 @@ export default function ActiveQuiz() {
                 </div>
             </div>
 
-            <div className='d-flex justify-content-start' style={{ marginLeft: '5%' }}>
+            <div className='d-flex '>
+            <div className='d-flex w-100 justify-content-start' style={{ marginLeft: '5%' }}>
                 {0 < currentQuestionIndex &&
                 <button id="wd-last" className="btn btn-secondary w-30 me-1"
                     onClick={handlePreviousQuestion}>
@@ -112,6 +113,7 @@ export default function ActiveQuiz() {
                 <button id="wd-submit" className="btn btn-danger w-30 me-1" onClick={handleSubmit}>
                     Submit
                 </button>}
+            </div>
             </div>
 
         </div>
