@@ -1,7 +1,7 @@
 import { Express } from 'express-serve-static-core';
 import { Request, Response } from 'express';
-export default function QueryParameters(app: Express) {
-  app.get('/lab5/calculator', (req: Request, res: Response) => {
+export default function QueryParameters(app) {
+  app.get('/lab5/calculator', (req, res) => {
     const { a, b, operation } = req.query as {
       a: string;
       b: string;

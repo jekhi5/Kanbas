@@ -5,6 +5,7 @@ import cors from 'cors';
 import UserRoutes from './Kanbas/Users/routes.js';
 import session from 'express-session';
 import 'dotenv/config';
+import CourseRoutes from './Kanbas/Courses/routes.js';
 
 const app = express();
 app.use(
@@ -13,7 +14,7 @@ app.use(
     origin: process.env.NETLIFY_URL || 'http://localhost:3000',
   })
 );
-let sessionOptions: session.SessionOptions = {
+let sessionOptions = {
   secret: process.env.SESSION_SECRET || 'kanbas',
   resave: false,
   saveUninitialized: false,
@@ -29,9 +30,14 @@ if (process.env.NODE_ENV !== 'development') {
     },
   };
 }
+
 app.use(session(sessionOptions));
 app.use(express.json());
+
+// All work should be added below:
+
 UserRoutes(app);
+CourseRoutes(app);
 Lab5(app);
 Hello(app);
 app.listen(process.env.PORT || 4000);

@@ -6,8 +6,8 @@ let todos = [
   { id: 3, title: 'Task 3', completed: false, description: '' },
   { id: 4, title: 'Task 4', completed: true, description: '' },
 ];
-export default function WorkingWithArrays(app: Express) {
-  app.get('/lab5/todos/create', (req: Request, res: Response) => {
+export default function WorkingWithArrays(app) {
+  app.get('/lab5/todos/create', (req, res) => {
     const newTodo = {
       id: new Date().getTime(),
       title: 'New Task',
@@ -17,7 +17,7 @@ export default function WorkingWithArrays(app: Express) {
     todos.push(newTodo);
     res.json(todos);
   });
-  app.get('/lab5/todos', (req: Request, res: Response) => {
+  app.get('/lab5/todos', (req, res) => {
     const { completed } = req.query;
     if (completed !== undefined) {
       const completedBool = completed === 'true';
@@ -27,7 +27,7 @@ export default function WorkingWithArrays(app: Express) {
     }
     res.json(todos);
   });
-  app.get('/lab5/todos/:id', (req: Request, res: Response) => {
+  app.get('/lab5/todos/:id', (req, res) => {
     const { id } = req.params;
     if (!id || id === undefined) {
       res.status(400).json({ error: 'ID is required' });
@@ -39,7 +39,7 @@ export default function WorkingWithArrays(app: Express) {
     }
     res.json(todo);
   });
-  app.get('/lab5/todos/:id/delete', (req: Request, res: Response) => {
+  app.get('/lab5/todos/:id/delete', (req, res) => {
     const { id } = req.params;
     if (!id || id === undefined) {
       res.status(400).json({ error: 'ID is required' });
@@ -49,7 +49,7 @@ export default function WorkingWithArrays(app: Express) {
     todos.splice(todoIndex, 1);
     res.json(todos);
   });
-  app.get('/lab5/todos/:id/title/:title', (req: Request, res: Response) => {
+  app.get('/lab5/todos/:id/title/:title', (req, res) => {
     const { id, title } = req.params;
     if (!id || id === undefined) {
       res.status(400).json({ error: 'ID is required' });
@@ -68,7 +68,7 @@ export default function WorkingWithArrays(app: Express) {
   });
   app.get(
     '/lab5/todos/:id/description/:description',
-    (req: Request, res: Response) => {
+    (req, res) => {
       const { id, description } = req.params;
       if (!id || id === undefined) {
         res.status(400).json({ error: 'ID is required' });
@@ -88,7 +88,7 @@ export default function WorkingWithArrays(app: Express) {
   );
   app.get(
     '/lab5/todos/:id/completed/:completed',
-    (req: Request, res: Response) => {
+    (req, res) => {
       const { id, completed } = req.params;
       if (!id || id === undefined) {
         res.status(400).json({ error: 'ID is required' });
@@ -106,12 +106,12 @@ export default function WorkingWithArrays(app: Express) {
       }
     }
   );
-  app.post('/lab5/todos', (req: Request, res: Response) => {
+  app.post('/lab5/todos', (req, res) => {
     const newTodo = { ...req.body, id: new Date().getTime() };
     todos.push(newTodo);
     res.json(newTodo);
   });
-  app.delete('/lab5/todos/:id', (req: Request, res: Response) => {
+  app.delete('/lab5/todos/:id', (req, res) => {
     const { id } = req.params;
     if (!id || id === undefined) {
       res.status(400).json({ error: 'ID is required' });
@@ -125,7 +125,7 @@ export default function WorkingWithArrays(app: Express) {
     todos.splice(todoIndex, 1);
     res.sendStatus(200);
   });
-  app.put('/lab5/todos/:id', (req: Request, res: Response) => {
+  app.put('/lab5/todos/:id', (req, res) => {
     const { id } = req.params;
     if (!id || id === undefined) {
       res.status(400).json({ error: 'ID is required' });

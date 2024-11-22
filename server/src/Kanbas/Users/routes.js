@@ -1,19 +1,14 @@
 import { Express } from 'express-serve-static-core';
 import { Request, Response } from 'express';
 import * as dao from './dao.js';
-import { User } from '../types.js';
+import * as courseDao from '../Courses/dao.js';
 
-declare module 'express-session' {
-  interface SessionData {
-    currentUser: any; // You can replace 'any' with a more specific type if you have one
-  }
-}
-export default function UserRoutes(app: Express) {
-  const createUser = (req: Request, res: Response) => {};
-  const deleteUser = (req: Request, res: Response) => {};
-  const findAllUsers = (req: Request, res: Response) => {};
-  const findUserById = (req: Request, res: Response) => {};
-  const updateUser = (req: Request, res: Response) => {
+export default function UserRoutes(app) {
+  const createUser = (req, res) => { };
+  const deleteUser = (req, res) => { };
+  const findAllUsers = (req, res) => { };
+  const findUserById = (req, res) => { };
+  const updateUser = (req, res) => {
     const userId = req.params.userId;
     const userUpdates = req.body;
     if (
@@ -34,7 +29,7 @@ export default function UserRoutes(app: Express) {
     req.session['currentUser'] = currentUser;
     res.json(currentUser);
   };
-  const signup = (req: Request, res: Response) => {
+  const signup = (req, res) => {
     const user = dao.findUserByUsername(req.body.username);
     if (user) {
       res.status(400).json({ message: 'Username already in use' });
@@ -44,7 +39,7 @@ export default function UserRoutes(app: Express) {
     req.session['currentUser'] = currentUser;
     res.json(currentUser);
   };
-  const signin = (req: Request, res: Response) => {
+  const signin = (req, res) => {
     const { username, password } = req.body;
     const currentUser = dao.findUserByCredentials(username, password);
     if (currentUser) {
@@ -54,7 +49,7 @@ export default function UserRoutes(app: Express) {
       res.status(401).json({ message: 'Unable to login. Try again later.' });
     }
   };
-  const signout = (req: Request, res: Response) => {
+  const signout = (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         res
@@ -65,7 +60,7 @@ export default function UserRoutes(app: Express) {
       }
     });
   };
-  const profile = (req: Request, res: Response) => {
+  const profile = (req, res) => {
     const currentUser = req.session['currentUser'];
     if (!currentUser) {
       res.sendStatus(401);
@@ -73,6 +68,21 @@ export default function UserRoutes(app: Express) {
     }
     res.json(currentUser);
   };
+
+  const findCoursesForEnrolledUser = (req, res) => {
+    let { userId } = req.params;
+    if (userId === 'current') {
+      const currentUser = req.session['currentUser'];
+      if (!currentUser) {
+        res.sendStatus(401);
+        return;
+      }
+      userId = currentUser._id;
+    }
+    const courses = courseDao.findCoursesForEnrolledUser(userId);
+    res.json(courses);
+  };
+
   app.post('/api/users', createUser);
   app.get('/api/users', findAllUsers);
   app.get('/api/users/:userId', findUserById);
@@ -82,4 +92,5 @@ export default function UserRoutes(app: Express) {
   app.post('/api/users/signin', signin);
   app.post('/api/users/signout', signout);
   app.post('/api/users/profile', profile);
+  app.get('/api/users/:userId/courses', findCoursesForEnrolledUser);
 }

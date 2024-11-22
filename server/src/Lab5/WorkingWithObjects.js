@@ -15,14 +15,14 @@ const module = {
 import { Request, Response } from 'express';
 import { Express } from 'express-serve-static-core';
 
-export default function WorkingWithObjects(app: Express) {
-  app.get('/lab5/assignment', (req: Request, res: Response) => {
+export default function WorkingWithObjects(app) {
+  app.get('/lab5/assignment', (req, res) => {
     res.json(assignment);
   });
-  app.get('/lab5/assignment/title', (req: Request, res: Response) => {
+  app.get('/lab5/assignment/title', (req, res) => {
     res.json(assignment.title);
   });
-  app.get('/lab5/assignment/title/:newTitle', (req: Request, res: Response) => {
+  app.get('/lab5/assignment/title/:newTitle', (req, res) => {
     const { newTitle } = req.params;
     if (!newTitle || newTitle === undefined) {
       res.status(400).json({ error: 'Title is required' });
@@ -31,27 +31,27 @@ export default function WorkingWithObjects(app: Express) {
     assignment.title = newTitle;
     res.json(assignment);
   });
-  app.get('/lab5/assignment/score/:newScore', (req: Request, res: Response) => {
+  app.get('/lab5/assignment/score/:newScore', (req, res) => {
     const { newScore } = req.params;
     assignment.score = Number(newScore);
     res.json(assignment);
   });
   app.get(
     '/lab5/assignment/completed/:newCompleted',
-    (req: Request, res: Response) => {
+    (req, res) => {
       const { newCompleted } = req.params;
       assignment.completed = Boolean(newCompleted);
       res.json(assignment);
     }
   );
 
-  app.get('/lab5/module', (req: Request, res: Response) => {
+  app.get('/lab5/module', (req, res) => {
     res.json(module);
   });
-  app.get('/lab5/module/name', (req: Request, res: Response) => {
+  app.get('/lab5/module/name', (req, res) => {
     res.json(module.name);
   });
-  app.get('/lab5/module/name/:newName', (req: Request, res: Response) => {
+  app.get('/lab5/module/name/:newName', (req, res) => {
     const { newName } = req.params;
     if (!newName || newName === undefined) {
       res.status(400).json({ error: 'Name is required' });
@@ -62,7 +62,7 @@ export default function WorkingWithObjects(app: Express) {
   });
   app.get(
     '/lab5/module/description/:newDescription',
-    (req: Request, res: Response) => {
+    (req, res) => {
       const { newDescription } = req.params;
       if (!newDescription || newDescription === undefined) {
         res.status(400).json({ error: 'Description is required' });
