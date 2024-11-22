@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { setCurrentUser } from './reducer';
 import { useDispatch } from 'react-redux';
@@ -6,14 +6,33 @@ import * as client from './client';
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
+  const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const signin = async () => {
-    const user = await client.signin(credentials);
-    if (!user) return;
-    dispatch(setCurrentUser(user));
-    navigate('/Kanbas/Dashboard');
+    try {
+      const user = await client.signin(credentials);
+      if (!user) return;
+      dispatch(setCurrentUser(user));
+      navigate('/Kanbas/Dashboard');
+    } catch (error) {
+      setError('Error signing in');
+    }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        signin();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [credentials, dispatch, navigate]);
 
   return (
     <div id="wd-signin-screen">
@@ -51,6 +70,10 @@ export default function Signin() {
       >
         Sign up
       </Link>
+
+      {error && (
+        <div className="alert alert-danger mt-3 text-center">{error}</div>
+      )}
     </div>
   );
 }
