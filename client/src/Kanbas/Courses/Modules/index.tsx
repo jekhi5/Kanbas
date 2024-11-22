@@ -34,6 +34,11 @@ export default function Modules() {
     dispatch(addModule(module));
   };
 
+  const saveModule = async (module: any) => {
+    await modulesClient.updateModule(module);
+    dispatch(updateModule(module));
+  };
+
   useEffect(() => {
     const fetchModules = async () => {
       const modules = await coursesClient.findModulesForCourse(cid as string);
@@ -73,7 +78,7 @@ export default function Modules() {
                     }
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        dispatch(updateModule({ ...module, editing: false }));
+                        saveModule({ ...module, editing: false });
                       }
                     }}
                     value={module.name}
