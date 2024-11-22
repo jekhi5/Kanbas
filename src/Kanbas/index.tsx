@@ -55,7 +55,12 @@ export default function Kanbas() {
     const newCourse = await userClient.createCourse(course);
 
     setCourses([...courses, newCourse]);
+    setEnrollments((prev) => [
+      ...prev,
+      { user: currentUser._id, course: newCourse._id },
+    ]);
   };
+
   const deleteCourse = async (courseId: string) => {
     await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
