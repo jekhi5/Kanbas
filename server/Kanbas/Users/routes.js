@@ -1,5 +1,3 @@
-import { Express } from 'express-serve-static-core';
-import { Request, Response } from 'express';
 import * as dao from './dao.js';
 import * as courseDao from '../Courses/dao.js';
 

@@ -1,12 +1,6 @@
-import { Express } from 'express-serve-static-core';
-import { Request, Response } from 'express';
 export default function QueryParameters(app) {
   app.get('/lab5/calculator', (req, res) => {
-    const { a, b, operation } = req.query as {
-      a: string;
-      b: string;
-      operation: string;
-    };
+    const { a, b, operation } = req.query
     let result = 0;
     try {
       switch (operation) {

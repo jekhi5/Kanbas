@@ -1,5 +1,3 @@
-import { Express } from 'express-serve-static-core';
-import { Request, Response } from 'express';
 let todos = [
   { id: 1, title: 'Task 1', completed: false, description: '' },
   { id: 2, title: 'Task 2', completed: true, description: '' },

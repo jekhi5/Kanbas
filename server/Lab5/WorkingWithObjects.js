@@ -12,8 +12,6 @@ const module = {
   description: 'Learn NodeJS',
   course: 'Web Development',
 };
-import { Request, Response } from 'express';
-import { Express } from 'express-serve-static-core';
 
 export default function WorkingWithObjects(app) {
   app.get('/lab5/assignment', (req, res) => {
