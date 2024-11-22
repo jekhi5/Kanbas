@@ -52,5 +52,4 @@ export default function CourseRoutes(app) {
     const newAssignment = assignmentsDao.createAssignment(assignment);
     res.send(newAssignment);
   });
-
 }

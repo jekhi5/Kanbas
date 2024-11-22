@@ -11,21 +11,37 @@ import Session from './Account/Session';
 import * as userClient from './Account/client';
 import { useSelector } from 'react-redux';
 import * as courseClient from './Courses/client';
+import * as enrollmentClient from './Dashboard/client';
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const fetchCourses = async () => {
-    try {
-      const courses = await userClient.findMyCourses();
-      setCourses(courses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [shouldHideUnenrolled, setShouldHideUnenrolled] =
+    useState<boolean>(true);
+  const [enrollments, setEnrollments] = useState<any[]>([]);
+
   useEffect(() => {
+    const fetchEnrollments = async () => {
+      const enrollments = await enrollmentClient.fetchAllEnrollments();
+      setEnrollments(enrollments);
+    };
+    fetchEnrollments();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const courses = shouldHideUnenrolled
+          ? await userClient.findMyCourses()
+          : await courseClient.fetchAllCourses();
+        setCourses(courses);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchCourses();
-  }, [currentUser]);
+  }, [currentUser, shouldHideUnenrolled, enrollments]);
 
   const [course, setCourse] = useState<any>({
     _id: '1234',
@@ -58,6 +74,27 @@ export default function Kanbas() {
     );
   };
 
+  const enrollInCourse = async (courseId: string) => {
+    await userClient.enrollInCourse(courseId);
+    setEnrollments((prev) => [
+      ...prev,
+      { user: currentUser._id, course: courseId },
+    ]);
+  };
+
+  const unenrollInCourse = async (courseId: string) => {
+    await userClient.unenrollInCourse(courseId);
+    setEnrollments((prev) =>
+      prev.filter(
+        (enrollment) =>
+          !(
+            enrollment.course === courseId &&
+            enrollment.user === currentUser._id
+          )
+      )
+    );
+  };
+
   return (
     <Session>
       <div id="wd-kanbas">
@@ -77,6 +114,11 @@ export default function Kanbas() {
                     addNewCourse={addNewCourse}
                     deleteCourse={deleteCourse}
                     updateCourse={updateCourse}
+                    shouldHideUnenrolled={shouldHideUnenrolled}
+                    setShouldHideUnenrolled={setShouldHideUnenrolled}
+                    enrollInCourse={enrollInCourse}
+                    unenrollInCourse={unenrollInCourse}
+                    enrollments={enrollments}
                   />
                 </ProtectedRoute>
               }

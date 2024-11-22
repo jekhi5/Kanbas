@@ -48,3 +48,17 @@ export const createCourse = async (course: any) => {
   );
   return data;
 };
+
+export const enrollInCourse = async (courseId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${USERS_API}/current/enrollInCourse/${courseId}`
+  );
+  return response.status;
+};
+
+export const unenrollInCourse = async (courseId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${USERS_API}/current/unenrollInCourse/${courseId}`
+  );
+  return response.status;
+};
