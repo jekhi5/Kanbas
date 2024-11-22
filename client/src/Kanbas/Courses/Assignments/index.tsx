@@ -13,11 +13,17 @@ import { FaTrash } from 'react-icons/fa';
 import DeleteAssignmentModal from './DeleteAssignmentModal';
 import { useState, useEffect } from 'react';
 import * as coursesClient from '../client';
+import * as assignmentsClient from './client';
 
 export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const dispatch = useDispatch();
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
 
   useEffect(() => {
     const fetchAssignments = async () => {
@@ -124,7 +130,7 @@ export default function Assignments() {
                       <DeleteAssignmentModal
                         assignmentTitle={assignmentToDelete.title}
                         deleteAssignment={() =>
-                          dispatch(deleteAssignment(assignmentToDelete._id))
+                          removeAssignment(assignmentToDelete._id)
                         }
                       />
                     </ProtectedContent>
