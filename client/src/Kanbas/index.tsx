@@ -26,7 +26,6 @@ export default function Kanbas() {
     fetchCourses();
   }, [currentUser]);
 
-  
   const [course, setCourse] = useState<any>({
     _id: '1234',
     name: 'New Course',
@@ -35,11 +34,10 @@ export default function Kanbas() {
     endDate: '2023-12-15',
     description: 'New Description',
   });
-  const addNewCourse = () => {
-    setCourses([
-      ...courses,
-      { ...course, _id: new Date().getTime().toString() },
-    ]);
+  const addNewCourse = async () => {
+    const newCourse = await userClient.createCourse(course);
+
+    setCourses([...courses, newCourse]);
   };
   const deleteCourse = (courseId: any) => {
     setCourses(courses.filter((course) => course._id !== courseId));
