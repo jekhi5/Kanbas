@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { addAssignment, updateAssignment } from './reducer';
 import * as coursesClient from '../client';
+import * as assignmentsClient from './client';
+
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const { pathname } = useLocation();
@@ -73,7 +75,12 @@ export default function AssignmentEditor() {
       );
       dispatch(addAssignment(assignment));
     } else {
-      dispatch(updateAssignment({ ...assignment, ...newAssignment }));
+      const updatedAssignment = {
+        ...assignment,
+        ...newAssignment,
+      };
+      await assignmentsClient.updateAssignment(updatedAssignment);
+      dispatch(updateAssignment(updatedAssignment));
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
