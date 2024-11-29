@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router';
 export default function TOC() {
   const { pathname } = useLocation();
+  const labs = ['Lab1', 'Lab2', 'Lab3', 'Lab4', 'Lab5'];
   return (
     <ul className="nav nav-pills">
       <li className="nav-item">
@@ -8,42 +9,17 @@ export default function TOC() {
           Labs
         </a>
       </li>
-      <li className="nav-item">
-        <a
-          id="wd-a1"
-          href="#/Labs/Lab1"
-          className={`nav-link ${pathname.includes('Lab1') ? 'active' : ''}`}
-        >
-          Lab 1
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          id="wd-a2"
-          href="#/Labs/Lab2"
-          className={`nav-link ${pathname.includes('Lab2') ? 'active' : ''}`}
-        >
-          Lab 2
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          id="wd-a3"
-          href="#/Labs/Lab3"
-          className={`nav-link ${pathname.includes('Lab3') ? 'active' : ''}`}
-        >
-          Lab 3
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          id="wd-a3"
-          href="#/Labs/Lab4"
-          className={`nav-link ${pathname.includes('Lab4') ? 'active' : ''}`}
-        >
-          Lab 4
-        </a>
-      </li>
+      {labs.map((lab) => (
+        <li key={lab} className="nav-item">
+          <a
+            id={`wd-a${lab}`}
+            href={`#/Labs/${lab}`}
+            className={`nav-link ${pathname.includes(lab) ? 'active' : ''}`}
+          >
+            {lab}
+          </a>
+        </li>
+      ))}
       <li className="nav-item">
         <a id="wd-k" href="#/Kanbas" className="nav-link">
           Kanbas
@@ -55,7 +31,25 @@ export default function TOC() {
           href="https://github.com/jekhi5/kanbas-react-web-app-cs4550-f24/"
           className="nav-link"
         >
-          My GitHub
+          Web App Repo
+        </a>
+      </li>
+      <li className="nav-item">
+        <a
+          id="wd-github"
+          href="https://github.com/jekhi5/kanbas-node-server-app"
+          className="nav-link"
+        >
+          Server Repo
+        </a>
+      </li>
+      <li className="nav-item">
+        <a
+          id="wd-github"
+          href="https://kanbas-node-server-app-5fv0.onrender.com"
+          className="nav-link"
+        >
+          Root of Server
         </a>
       </li>
     </ul>

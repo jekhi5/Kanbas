@@ -8,15 +8,33 @@ import { useParams } from 'react-router';
 import { format } from 'date-fns';
 import ProtectedContent from '../../Account/ProtectedContent';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAssignment } from './reducer';
+import { deleteAssignment, setAssignments } from './reducer';
 import { FaTrash } from 'react-icons/fa';
 import DeleteAssignmentModal from './DeleteAssignmentModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as coursesClient from '../client';
+import * as assignmentsClient from './client';
 
 export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const dispatch = useDispatch();
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      const assignments = await coursesClient.findAssignmentsForCourse(
+        cid as string
+      );
+      dispatch(setAssignments(assignments));
+    };
+    fetchAssignments();
+  }, [cid, dispatch]);
+
   const [assignmentToDelete, setAssignmentToDelete] = useState({
     _id: '',
     title: '',
@@ -49,75 +67,77 @@ export default function Assignments() {
             </div>
           </div>
           <ul className="wd-lessons list-group rounded-0">
-            {assignments
-              .filter((assignment: any) => assignment.course === cid)
-              .map((assignment: any) => (
-                <li className="wd-assignment-list-item list-group-item p-3 ps-1 py-0">
-                  <div className="d-flex mb-3">
-                    <div className="p-2 my-auto flex-shrink-0">
+            {assignments.map((assignment: any) => (
+              <li className="wd-assignment-list-item list-group-item p-3 ps-1 py-0">
+                <div className="d-flex mb-3">
+                  <div className="p-2 my-auto flex-shrink-0">
+                    <ProtectedContent role="FACULTY">
+                      <BsGripVertical className="me-2 fs-3" />
+                    </ProtectedContent>
+                    <PiNotePencilDuotone className="me-2 fs-5" />
+                  </div>
+                  <div className="p-2 my-auto">
+                    <h3>
                       <ProtectedContent role="FACULTY">
-                        <BsGripVertical className="me-2 fs-3" />
-                      </ProtectedContent>
-                      <PiNotePencilDuotone className="me-2 fs-5" />
-                    </div>
-                    <div className="p-2 my-auto">
-                      <h3>
                         <a
                           className="wd-assignment-link text-dark text-decoration-none"
                           href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                         >
                           {assignment.title}
                         </a>
-                      </h3>
-                      <span className="text-danger"> Multiple Modules </span>{' '}
-                      {assignment.releaseDate &&
-                      Date.parse(assignment.releaseDate.replace(/-/g, ' ')) >
-                        todaysDate ? (
-                        <span>
-                          {' '}
-                          | <b>Not Available until </b>
-                          {format(
-                            assignment.releaseDate,
-                            "MMMM d 'at' hh:mma"
-                          ) + ' |'}
-                        </span>
-                      ) : (
-                        ''
-                      )}{' '}
-                      {assignment.dueDate && (
-                        <span>
-                          {' '}
-                          | <b>Due</b>{' '}
-                          {format(assignment.dueDate, "MMMM d 'at' hh:mma")}
-                        </span>
-                      )}
-                      {assignment.points && (
-                        <span> | {assignment.points} pts</span>
-                      )}
-                    </div>
-                    <div className="ms-auto p-2 my-auto flex-shrink-0">
-                      <ProtectedContent role="FACULTY">
-                        <div className="d-flex align-items-center">
-                          <AssignmentControlButtons />
-                          <FaTrash
-                            className="text-danger me-1"
-                            id="wd-delete-assignment-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#wd-delete-assignment-dialog"
-                            onClick={() => setAssignmentToDelete(assignment)}
-                          />
-                        </div>
-                        <DeleteAssignmentModal
-                          assignmentTitle={assignmentToDelete.title}
-                          deleteAssignment={() =>
-                            dispatch(deleteAssignment(assignmentToDelete._id))
-                          }
-                        />
                       </ProtectedContent>
-                    </div>
+
+                      <ProtectedContent role="STUDENT">
+                        {assignment.title}
+                      </ProtectedContent>
+                    </h3>
+                    <span className="text-danger"> Multiple Modules </span>{' '}
+                    {assignment.releaseDate &&
+                    Date.parse(assignment.releaseDate.replace(/-/g, ' ')) >
+                      todaysDate ? (
+                      <span>
+                        {' '}
+                        | <b>Not Available until </b>
+                        {format(assignment.releaseDate, "MMMM d 'at' hh:mma") +
+                          ' |'}
+                      </span>
+                    ) : (
+                      ''
+                    )}{' '}
+                    {assignment.dueDate && (
+                      <span>
+                        {' '}
+                        | <b>Due</b>{' '}
+                        {format(assignment.dueDate, "MMMM d 'at' hh:mma")}
+                      </span>
+                    )}
+                    {assignment.points && (
+                      <span> | {assignment.points} pts</span>
+                    )}
                   </div>
-                </li>
-              ))}
+                  <div className="ms-auto p-2 my-auto flex-shrink-0">
+                    <ProtectedContent role="FACULTY">
+                      <div className="d-flex align-items-center">
+                        <AssignmentControlButtons />
+                        <FaTrash
+                          className="text-danger me-1"
+                          id="wd-delete-assignment-btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#wd-delete-assignment-dialog"
+                          onClick={() => setAssignmentToDelete(assignment)}
+                        />
+                      </div>
+                      <DeleteAssignmentModal
+                        assignmentTitle={assignmentToDelete.title}
+                        deleteAssignment={() =>
+                          removeAssignment(assignmentToDelete._id)
+                        }
+                      />
+                    </ProtectedContent>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
         </li>
       </ul>

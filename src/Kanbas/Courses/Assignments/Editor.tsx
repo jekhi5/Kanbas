@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { addAssignment, updateAssignment } from './reducer';
+import * as coursesClient from '../client';
+import * as assignmentsClient from './client';
+
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const { pathname } = useLocation();
@@ -48,7 +51,7 @@ export default function AssignmentEditor() {
     }
   }, [creatingNewAssignment, assignment, cid]);
 
-  const saveAssignment = () => {
+  const saveAssignment = async () => {
     const newAssignment = {
       title: title.length > 0 ? title : 'Untitled Assignment',
       course,
@@ -65,9 +68,19 @@ export default function AssignmentEditor() {
     };
 
     if (creatingNewAssignment) {
-      dispatch(addAssignment(newAssignment));
+      if (!cid) return;
+      const assignment = await coursesClient.createAssignmentForCourse(
+        cid,
+        newAssignment
+      );
+      dispatch(addAssignment(assignment));
     } else {
-      dispatch(updateAssignment({ ...assignment, ...newAssignment }));
+      const updatedAssignment = {
+        ...assignment,
+        ...newAssignment,
+      };
+      await assignmentsClient.updateAssignment(updatedAssignment);
+      dispatch(updateAssignment(updatedAssignment));
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
