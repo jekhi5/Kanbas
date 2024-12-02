@@ -4,7 +4,10 @@ import Modules from './Modules';
 import Home from './Home';
 import Assignments from './Assignments';
 import AssignmentEditor from './Assignments/Editor';
+import QuizDetails from './Quizzes/details';
 import QuizEditor from './Quizzes/editor';
+import QuizPreview from './Quizzes/Preview/index'
+import Quiz from './Quizzes/index';
 import { FaAlignJustify } from 'react-icons/fa';
 import PeopleTable from './People/Table';
 import * as db from '../Database';
@@ -41,7 +44,10 @@ export default function Courses({ courses }: { courses: any[] }) {
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-            <Route path="Quizzes/:qid" element={<QuizEditor />} />
+            <Route path="Quizzes" element={<Quiz />} />
+            <Route path="Quizzes/:qid" element={<QuizDetails />} />
+            <Route path="Quizzes/:qid/edit" element={<QuizEditor />} />
+            <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />
             <Route path="Assignments/new" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
