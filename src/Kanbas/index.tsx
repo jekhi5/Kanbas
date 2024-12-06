@@ -52,7 +52,7 @@ export default function Kanbas() {
     description: 'New Description',
   });
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
+    const newCourse = await courseClient.createCourse(course);
 
     setCourses([...courses, newCourse]);
     setEnrollments((prev) => [
