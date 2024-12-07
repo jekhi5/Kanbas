@@ -33,15 +33,12 @@ export default function AssignmentEditor() {
   const [assignTo, setAssignTo] = useState('');
   const [availableUntil, setAvailableUntil] = useState('');
 
-  const formatMongoDate = (mongoDate: string | number | Date) =>
-    formatDistance(new Date(mongoDate), new Date());
-
   useEffect(() => {
     if (!creatingNewAssignment && assignment) {
       setTitle(assignment.title);
       setCourse(assignment.course);
-      setReleaseDate(formatMongoDate(assignment.releaseDate));
-      setDueDate(formatMongoDate(assignment.dueDate));
+      setReleaseDate(assignment.releaseDate);
+      setDueDate(assignment.dueDate);
       setPoints(assignment.points);
       setDescription(assignment.description);
       setAssignmentGroup(assignment.assignmentGroup);
@@ -49,7 +46,7 @@ export default function AssignmentEditor() {
       setDisplayGradeAs(assignment.displayGradeAs);
       setOnlineEntryOptions(assignment.onlineEntryOptions);
       setAssignTo(assignment.assignTo);
-      setAvailableUntil(formatMongoDate(assignment.availableUntil));
+      setAvailableUntil(assignment.availableUntil);
     } else {
       setCourse(cid ?? '');
     }
