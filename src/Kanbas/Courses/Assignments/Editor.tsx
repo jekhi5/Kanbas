@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { addAssignment, updateAssignment } from './reducer';
 import * as coursesClient from '../client';
 import * as assignmentsClient from './client';
+import { formatDistance } from 'date-fns/formatDistance';
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
@@ -32,12 +33,15 @@ export default function AssignmentEditor() {
   const [assignTo, setAssignTo] = useState('');
   const [availableUntil, setAvailableUntil] = useState('');
 
+  const formatMongoDate = (mongoDate: string | number | Date) =>
+    formatDistance(new Date(mongoDate), new Date());
+
   useEffect(() => {
     if (!creatingNewAssignment && assignment) {
       setTitle(assignment.title);
       setCourse(assignment.course);
-      setReleaseDate(assignment.releaseDate);
-      setDueDate(assignment.dueDate);
+      setReleaseDate(formatMongoDate(assignment.releaseDate));
+      setDueDate(formatMongoDate(assignment.dueDate));
       setPoints(assignment.points);
       setDescription(assignment.description);
       setAssignmentGroup(assignment.assignmentGroup);
@@ -45,7 +49,7 @@ export default function AssignmentEditor() {
       setDisplayGradeAs(assignment.displayGradeAs);
       setOnlineEntryOptions(assignment.onlineEntryOptions);
       setAssignTo(assignment.assignTo);
-      setAvailableUntil(assignment.availableUntil);
+      setAvailableUntil(formatMongoDate(assignment.availableUntil));
     } else {
       setCourse(cid ?? '');
     }

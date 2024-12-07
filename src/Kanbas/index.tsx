@@ -29,7 +29,7 @@ export default function Kanbas() {
             return course;
           }
         });
-        setCourses(courses);
+        setCourses(courses.filter((course: any) => course));
       } catch (error) {
         console.error(error);
       }
@@ -38,7 +38,7 @@ export default function Kanbas() {
     const findCoursesForUser = async () => {
       try {
         const courses = await userClient.findCoursesForUser(currentUser._id);
-        setCourses(courses);
+        setCourses(courses.filter((course: any) => course));
       } catch (error) {
         console.error(error);
       }
@@ -61,24 +61,26 @@ export default function Kanbas() {
   });
   const addNewCourse = async () => {
     const newCourse = await courseClient.createCourse(course);
-    setCourses([...courses, newCourse]);
+    setCourses([...courses, newCourse].filter((course) => course));
   };
 
   const deleteCourse = async (courseId: string) => {
     await courseClient.deleteCourse(courseId);
-    setCourses(courses.filter((course) => course._id !== courseId));
+    setCourses(courses.filter((course) => course && course._id !== courseId));
   };
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
 
     setCourses(
-      courses.map((c) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
+      courses
+        .filter((course) => course)
+        .map((c) => {
+          if (c._id === course._id) {
+            return course;
+          } else {
+            return c;
+          }
+        })
     );
   };
 
@@ -89,13 +91,15 @@ export default function Kanbas() {
       await userClient.unenrollFromCourse(currentUser._id, courseId);
     }
     setCourses(
-      courses.map((course) => {
-        if (course._id === courseId) {
-          return { ...course, enrolled: enrolled };
-        } else {
-          return course;
-        }
-      })
+      courses
+        .filter((course) => course)
+        .map((course) => {
+          if (course._id === courseId) {
+            return { ...course, enrolled: enrolled };
+          } else {
+            return course;
+          }
+        })
     );
   };
 
