@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { setCurrentUser } from './reducer';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signin = async () => {
+  const signin = useCallback(async () => {
     try {
       const user = await client.signin(credentials);
       if (!user) return;
@@ -19,7 +19,7 @@ export default function Signin() {
     } catch (error) {
       setError('Error signing in');
     }
-  };
+  }, [credentials, dispatch, navigate]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -32,7 +32,7 @@ export default function Signin() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [credentials, dispatch, navigate]);
+  }, [credentials, dispatch, navigate, signin]);
 
   return (
     <div id="wd-signin-screen">

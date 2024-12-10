@@ -9,11 +9,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
-  shouldHideUnenrolled,
-  setShouldHideUnenrolled,
-  enrollInCourse,
-  unenrollInCourse,
-  enrollments,
+  enrolling,
+  setEnrolling,
+  updateEnrollment,
 }: {
   courses: any[];
   course: any;
@@ -21,22 +19,13 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
-  shouldHideUnenrolled: boolean;
-  setShouldHideUnenrolled: (shouldHideUnenrolled: boolean) => void;
-  enrollInCourse: (courseId: string) => void;
-  unenrollInCourse: (courseId: string) => void;
-  enrollments: any[];
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   if (!currentUser) return <h1>Sign in to view Dashboard</h1>;
-
-  const isEnrolled = (courseId: any) => {
-    return enrollments.some(
-      (enrollment: { user: any; course: any }) =>
-        enrollment.user === currentUser._id && enrollment.course === courseId
-    );
-  };
 
   return (
     <div id="wd-dashboard">
@@ -77,107 +66,88 @@ export default function Dashboard({
       </ProtectedContent>
       <ProtectedContent role="STUDENT">
         <button
-          className="btn btn-primary float-end"
-          onClick={() => setShouldHideUnenrolled(!shouldHideUnenrolled)}
-          id="wd-toggle-enrollments-click"
+          onClick={() => setEnrolling(!enrolling)}
+          className="float-end btn btn-primary"
         >
-          {shouldHideUnenrolled
-            ? 'Show All Courses'
-            : 'Show Enrolled Courses Only'}
+          {enrolling ? 'My Courses' : 'All Courses'}
         </button>
       </ProtectedContent>
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>{' '}
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses.map((course) =>
-            shouldHideUnenrolled && !isEnrolled(course._id) ? (
-              <></>
-            ) : (
-              <div
-                className="wd-dashboard-course col"
-                style={{ width: '300px' }}
-              >
-                <div className="card rounded-3 overflow-hidden">
-                  <Link
-                    to={`/Kanbas/Courses/${course._id}/Home`}
-                    className="wd-dashboard-course-link text-decoration-none text-dark"
-                  >
-                    <img
-                      src={require(`../../public/images/${
-                        course.imageName
-                          ? course.imageName
-                          : 'GenericCourseImage'
-                      }.jpg`)}
-                      width="100%"
-                      height={160}
-                      alt="Course logo"
-                    />
-                    <div className="card-body">
-                      <h5 className="wd-dashboard-course-title card-title">
-                        {course.name}{' '}
-                      </h5>
-                      <p
-                        className="wd-dashboard-course-title card-text overflow-y-hidden"
-                        style={{ maxHeight: 100 }}
+          {courses.map((course, idx) => (
+            <div
+              key={idx}
+              className="wd-dashboard-course col"
+              style={{ width: '300px' }}
+            >
+              <div className="card rounded-3 overflow-hidden">
+                <Link
+                  to={`/Kanbas/Courses/${course._id}/Home`}
+                  className="wd-dashboard-course-link text-decoration-none text-dark"
+                >
+                  <img
+                    src={require(`../../public/images/${
+                      course.imageName ? course.imageName : 'GenericCourseImage'
+                    }.jpg`)}
+                    width="100%"
+                    height={160}
+                    alt="Course logo"
+                  />
+                  <div className="card-body">
+                    <h5 className="wd-dashboard-course-title card-title">
+                      {course.name}{' '}
+                    </h5>
+                    <p
+                      className="wd-dashboard-course-title card-text overflow-y-hidden"
+                      style={{ maxHeight: 100 }}
+                    >
+                      {course.description}{' '}
+                    </p>
+                    <button className="btn btn-primary"> Go </button>
+                    <ProtectedContent role="FACULTY">
+                      <button
+                        onClick={(event) => {
+                          event.preventDefault();
+                          deleteCourse(course._id);
+                        }}
+                        className="btn btn-danger float-end"
+                        id="wd-delete-course-click"
                       >
-                        {course.description}{' '}
-                      </p>
-                      <button className="btn btn-primary"> Go </button>
-                      <ProtectedContent role="FACULTY">
+                        Delete
+                      </button>
+                      <button
+                        id="wd-edit-course-click"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setCourse(course);
+                        }}
+                        className="btn btn-warning me-2 float-end"
+                      >
+                        Edit
+                      </button>
+                    </ProtectedContent>
+                    <ProtectedContent role="STUDENT">
+                      {enrolling && (
                         <button
                           onClick={(event) => {
                             event.preventDefault();
-                            deleteCourse(course._id);
+                            updateEnrollment(course._id, !course.enrolled);
                           }}
-                          className="btn btn-danger float-end"
-                          id="wd-delete-course-click"
+                          className={`btn ${
+                            course.enrolled ? 'btn-danger' : 'btn-success'
+                          } float-end`}
                         >
-                          Delete
+                          {course.enrolled ? 'Unenroll' : 'Enroll'}
                         </button>
-                        <button
-                          id="wd-edit-course-click"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            setCourse(course);
-                          }}
-                          className="btn btn-warning me-2 float-end"
-                        >
-                          Edit
-                        </button>
-                      </ProtectedContent>
-
-                      <ProtectedContent role="STUDENT">
-                        {isEnrolled(course._id) ? (
-                          <button
-                            className="btn btn-danger float-end"
-                            id="wd-unenroll-course-click"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              unenrollInCourse(course._id);
-                            }}
-                          >
-                            Unenroll
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-success float-end"
-                            id="wd-enroll-course-click"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              enrollInCourse(course._id);
-                            }}
-                          >
-                            Enroll
-                          </button>
-                        )}
-                      </ProtectedContent>
-                    </div>
-                  </Link>
-                </div>
+                      )}
+                    </ProtectedContent>
+                  </div>
+                </Link>
               </div>
-            )
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
