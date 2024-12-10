@@ -4,6 +4,7 @@ import ThreeDotsElement from './ThreeDotsElement';
 import NotPublishedElement from './NotPublishedElement';
 import { useParams } from 'react-router';
 import { quizzes } from '../../Database';
+import Questions from './Questions/index'
 
 export default function QuizEditor() {
   const { qid } = useParams();
@@ -250,9 +251,7 @@ export default function QuizEditor() {
             <>
               <div className="row mb-3">
                 <div className="col">
-                  <button id="wd-new-question" className="btn btn-secondary">
-                    + New Question
-                  </button>
+                  <Questions />
                 </div>
               </div>
               <hr />
