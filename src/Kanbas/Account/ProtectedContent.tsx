@@ -7,7 +7,7 @@ export default function ProtectedContent({
   role: string;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  if (currentUser.role && currentUser.role === role) {
+  if (currentUser && currentUser.role && currentUser.role === role) {
     return children;
   } else {
     return <></>;
