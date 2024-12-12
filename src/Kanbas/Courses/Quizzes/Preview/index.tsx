@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Moment } from 'moment';
 import TrueFalseQuestion from './TrueFalse';
 import OpenResponse from './OpenResponse';
@@ -10,51 +10,84 @@ import { useSelector } from 'react-redux';
 import FillInTheBlank from './FillInTheBlank';
 
 export default function ActiveQuiz() {
-  const { qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
-    if (!quiz) {
-        return <div>Quiz not found!</div>
-    }
-
+    const { cid, qid } = useParams();
+    const { quizzes } = useSelector((state: any) => state.quizReducer);
+    const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [answers, setAnswers] = useState<{ [key: number]: any }>({});
     const DATE_TIME_FORMAT = 'MMM D [at] h:mma';
     let start_time: Moment = moment();
     const format_time = start_time.format(DATE_TIME_FORMAT);
+    const navigate = useNavigate();
+
+
+    if (!quiz) {
+        return <div>Quiz not found!</div>;
+    }
+
     const currentQuestion = quiz.questions[currentQuestionIndex];
+
+    const handleAnswer = (questionIndex: number, answer: any) => {
+        setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
+    };
+
     const handleNextQuestion = () => {
-        // Check if there are more questions to show
         setCurrentQuestionIndex(currentQuestionIndex + 1);
     };
 
     const handlePreviousQuestion = () => {
         setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
+    };
 
     const handleSubmit = () => {
-        alert('submit');
-    }
-
-    if (!currentQuestion) {
-        return <div>Invalid Quiz! No Questions!</div>
-    }
+        console.log('User answers:', answers);
+        // Navigate to QuizResults or send answers to the server
+        navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/results`, { state: { answers } });
+    };
 
     const showQuestionContent = () => {
         switch (currentQuestion.type) {
             case 'True-False':
-                return (<TrueFalseQuestion qid={qid} question={currentQuestion} />);
+                return (
+                    <TrueFalseQuestion
+                        qid={qid}
+                        question={currentQuestion}
+                        onAnswer={(answer: any) =>
+                            handleAnswer(currentQuestionIndex, answer)
+                        }
+                    />
+                );
             case 'Open-Response':
-                return (<OpenResponse qid={qid} question={currentQuestion} />);
+                return (
+                    <OpenResponse
+                        qid={qid}
+                        question={currentQuestion}
+                        onAnswer={(answer: string) =>
+                            handleAnswer(currentQuestionIndex, answer)
+                        }
+                    />
+                );
             case 'Multiple-Choice':
-                if (!currentQuestion.answerChoices) {
-                    return <p>Invalid Multiple Choice Question! No answer choices provided!</p>;
-                }
-                return (<MultipleChoiceQuestion qid={qid} question={currentQuestion} />);
+                return (
+                    <MultipleChoiceQuestion
+                        qid={qid}
+                        question={currentQuestion}
+                        onAnswer={(answer: any) =>
+                            handleAnswer(currentQuestionIndex, answer)
+                        }
+                    />
+                );
             case 'Fill-In-The-Blank':
-        return <FillInTheBlank question={currentQuestion} />;
-      default:
-                return (<p>Invalid Question Type: {currentQuestion.type}</p>);
+                return (
+                    <FillInTheBlank
+                        question={currentQuestion}
+                        onAnswer={(answer: any) =>
+                            handleAnswer(currentQuestionIndex, answer)
+                        }
+                    />
+                );
+            default:
+                return <p>Invalid Question Type: {currentQuestion.type}</p>;
         }
     };
 
@@ -101,23 +134,23 @@ export default function ActiveQuiz() {
             </div>
 
             <div className='d-flex '>
-            <div className='d-flex w-100 justify-content-start' style={{ marginLeft: '5%' }}>
-                {0 < currentQuestionIndex &&
-                <button id="wd-last" className="btn btn-secondary w-30 me-1"
-                    onClick={handlePreviousQuestion}>
-                    Previous
-                </button>}
-            </div>
-            <div className='d-flex justify-content-end' style={{ marginRight: '18%' }}>
-                {quiz.questions.length-1 > currentQuestionIndex ?
-                <button id="wd-next" className="btn btn-secondary w-30 me-1"
-                    onClick={handleNextQuestion}>
-                    Next
-                </button> : 
-                <button id="wd-submit" className="btn btn-danger w-30 me-1" onClick={handleSubmit}>
-                    Submit
-                </button>}
-            </div>
+                <div className='d-flex w-100 justify-content-start' style={{ marginLeft: '5%' }}>
+                    {0 < currentQuestionIndex &&
+                        <button id="wd-last" className="btn btn-secondary w-30 me-1"
+                            onClick={handlePreviousQuestion}>
+                            Previous
+                        </button>}
+                </div>
+                <div className='d-flex justify-content-end' style={{ marginRight: '18%' }}>
+                    {quiz.questions.length - 1 > currentQuestionIndex ?
+                        <button id="wd-next" className="btn btn-secondary w-30 me-1"
+                            onClick={handleNextQuestion}>
+                            Next
+                        </button> :
+                        <button id="wd-submit" className="btn btn-danger w-30 me-1" onClick={handleSubmit}>
+                            Submit
+                        </button>}
+                </div>
             </div>
 
         </div>

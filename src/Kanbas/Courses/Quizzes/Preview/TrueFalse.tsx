@@ -7,35 +7,51 @@ interface Answer {
     isCorrect: boolean;
 }
 
-export default function TrueFalseQuestion({qid, question}: any) {
-    const answer = question.answerChoices;
-
+export default function TrueFalseQuestion({ qid, question, onAnswer }: any) {
+    const [selectedAnswer, setSelectedAnswer] = useState<string>(question.answer || "");
     const dispatch = useDispatch();
 
     const updateAnswer = (correct: boolean) => {
-        // smth update state here
-    }
+        const newAnswer = correct ? "true" : "false";
+        setSelectedAnswer(newAnswer);
+        onAnswer({
+            quizId: qid,
+            questionNum: question.number,
+            ans: newAnswer,
+        });
+    };
 
-    useEffect (() => {
-        console.log('here');
+    useEffect(() => {
+        console.log('Selected answer updated:', selectedAnswer);
         /*dispatch(addAnswer({
             quizId: qid,
             questionNum: question.number,
-            ans: answer,
-          }));*/
-    }, [answer, question.number, qid, dispatch]);
+            ans: selectedAnswer,
+        }));*/
+    }, [selectedAnswer, question.number, qid, dispatch]);
 
-    
     return (
         <div className="mb-3 ps-3 ps-1">
             <hr />
-            <input type="radio" name="radio-multiple-choice" checked={answer === "true"} 
-             className="ps-3 me-2" id="wd-true" onChange={() => updateAnswer(true)}/>
-            <label htmlFor="wd-true">True</label><br />
+            <input
+                type="radio"
+                name={`radio-true-false-${qid}`}
+                checked={selectedAnswer === "true"}
+                className="ps-3 me-2"
+                id="wd-true"
+                onChange={() => updateAnswer(true)}
+            />
+            <label htmlFor="wd-true">True</label>
             <hr />
-            <input type="radio" name="radio-multiple-choice" className="ps-3 me-2" id="wd-false" 
-                checked={answer[1].isCorrect === false} onChange={() => updateAnswer(false)}/>
-            <label htmlFor="wd-false">False</label><br />
+            <input
+                type="radio"
+                name={`radio-true-false-${qid}`}
+                className="ps-3 me-2"
+                id="wd-false"
+                checked={selectedAnswer === "false"}
+                onChange={() => updateAnswer(false)}
+            />
+            <label htmlFor="wd-false">False</label>
         </div>
     );
 }
