@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { format } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import * as coursesClient from '../client';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { setQuizzes } from './reducer';
 
 export default function Quizzes() {
@@ -16,14 +16,14 @@ export default function Quizzes() {
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchQuizzes = async () => {
-      console.log('cid: ', cid);
-      const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
-      dispatch(setQuizzes(quizzes));
-    };
-    fetchQuizzes();
+  const fetchQuizzes = useCallback(async () => {
+    const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+    dispatch(setQuizzes(quizzes));
   }, [cid, dispatch]);
+
+  useEffect(() => {
+    fetchQuizzes();
+  }, [cid, dispatch, fetchQuizzes]);
 
   const todaysDate = new Date().setHours(0, 0, 0, 0);
 
@@ -77,9 +77,13 @@ export default function Quizzes() {
                       <b>Due</b> {format(quiz.dueDate, "MMMM d 'at' hh:mma")} |{' '}
                       {quiz.points} pts
                     </span>
+                    <span> | {quiz.questions.length} Questions</span>
                   </div>
                   <div className="ms-auto p-2 my-auto">
-                    <QuizControlButtons />
+                    <QuizControlButtons
+                      quiz={quiz}
+                      fetchQuizzes={fetchQuizzes}
+                    />
                   </div>
                 </div>
               </li>
