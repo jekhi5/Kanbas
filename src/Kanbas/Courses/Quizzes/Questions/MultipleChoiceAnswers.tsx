@@ -16,14 +16,6 @@ export default function MultipleChoiceAnswers (question: any) {
         setAnswers(newAnswers);
     };
 
-    const setCorrectAnswer = (index: number) => {
-        const newAnswers = answers.map((answer, i) => ({
-            ...answer,
-            isCorrect: i === index,
-        }));
-        setAnswers(newAnswers);
-    };
-
     const addAnswer = () => {
         setAnswers([...answers, { text: "", isCorrect: false }]);
     };

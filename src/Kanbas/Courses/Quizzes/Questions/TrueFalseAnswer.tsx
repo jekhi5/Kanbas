@@ -6,6 +6,7 @@ export default function TrueFalseAnswer(question: any) {
 
     const handleSelection = (option: any) => {
         setSelectedOption(option);
+        // update quiz with option here
     };
 
     return (
