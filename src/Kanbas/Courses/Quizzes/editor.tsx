@@ -482,9 +482,6 @@ export default function QuizEditor() {
           <>
             <div className="row mb-3">
               <div className="col">
-                <button id="wd-new-question" className="btn btn-secondary">
-                  + New Question
-                </button>
                 <div className="col">
                   <Questions
                     questions={questions}

@@ -139,164 +139,190 @@ export default function Questions({
 
   return (
     <div id="wd-quiz-questions">
+      <button
+        id="wd-new-question"
+        className="btn btn-secondary mb-2"
+        onClick={() => {
+          setQuestionNumber(questions.length + 1);
+          setQuestions([
+            ...questions,
+            {
+              questionNumber: questions.length + 1,
+              questionText: 'Untitled Question',
+              type: 'Multiple-Choice',
+              points: 0,
+              answerChoices: [],
+            },
+          ]);
+        }}
+      >
+        + New Question
+      </button>
       <div className="d-flex">
         <div className="p-6 align-items-stretch w-75">
-          {questions.map((question: any, idx: number) => (
-            <ul
-              className="wd-assignments list-group rounded-0"
-              key={idx}
-              style={{ listStyleType: 'none' }}
-            >
-              <li className="list-group-item p-3 ps-1">
-                <button
-                  onClick={() => {
-                    setQuestionNumber(idx + 1);
-                    setQuestionToBeEditing(question);
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    marginLeft: 'auto',
-                    color: 'green',
-                  }}
-                >
-                  <BsPencilSquare size={16} />
-                </button>
-                <div className="mb-3 ps-3 ps-1 d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <div id="wd-quiz-title" className="me-2">
-                      {' '}
-                      {idx + 1}
-                      {'. '}
+          {questions.map((question: any, idx: number) => {
+            console.log('QUESTION: ', question);
+            return (
+              <ul
+                className="wd-assignments list-group rounded-0"
+                key={idx}
+                style={{ listStyleType: 'none' }}
+              >
+                <li className="list-group-item p-3 ps-1">
+                  <button
+                    onClick={() => {
+                      setQuestionNumber(idx + 1);
+                      setQuestionToBeEditing(question);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginLeft: 'auto',
+                      color: 'green',
+                    }}
+                  >
+                    <BsPencilSquare size={16} />
+                  </button>
+                  <div className="mb-3 ps-3 ps-1 d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <div id="wd-quiz-title" className="me-2">
+                        {' '}
+                        {idx + 1}
+                        {'. '}
+                      </div>
+                      {questionNumber === question.questionNumber ? (
+                        <select
+                          id="wd-quiz-type"
+                          className="form-select"
+                          style={{ width: 200 }}
+                          onChange={(e) => {
+                            setType(e.target.value);
+
+                            if (e.target.value === 'True-False') {
+                              setAnswerChoices([
+                                { choice: 'True', isCorrect: true },
+                                { choice: 'False', isCorrect: false },
+                              ]);
+                            } else if (e.target.value === 'Open-Response') {
+                              setAnswerChoices([]);
+                            }
+                          }}
+                        >
+                          {question.type && (
+                            <option value={question.type}>
+                              {question.type}
+                            </option>
+                          )}
+                          <option value="True-False">True-False</option>
+                          <option value="Multiple-Choice">
+                            Multiple-Choice
+                          </option>
+                          <option value="Open-Response">Open-Response</option>
+                          <option value="Fill-In-The-Blank">
+                            Fill-In-The-Blank
+                          </option>
+                        </select>
+                      ) : (
+                        <>{question.type}</>
+                      )}
                     </div>
-                    {questionNumber === question.questionNumber ? (
-                      <select
-                        id="wd-quiz-type"
-                        className="form-select"
-                        style={{ width: 200 }}
-                        onChange={(e) => {
-                          setType(e.target.value);
-
-                          if (e.target.value === 'True-False') {
-                            setAnswerChoices([
-                              { choice: 'True', isCorrect: true },
-                              { choice: 'False', isCorrect: false },
-                            ]);
-                          } else if (e.target.value === 'Open-Response') {
-                            setAnswerChoices([]);
-                          }
-                        }}
-                      >
-                        {question.type && (
-                          <option value={question.type}>{question.type}</option>
-                        )}
-                        <option value="True-False">True-False</option>
-                        <option value="Multiple-Choice">Multiple-Choice</option>
-                        <option value="Open-Response">Open-Response</option>
-                        <option value="Fill-In-The-Blank">
-                          Fill-In-The-Blank
-                        </option>
-                      </select>
-                    ) : (
-                      <>{question.type}</>
-                    )}
+                    <div className="d-flex align-items-center">
+                      pts:
+                      {questionNumber === question.questionNumber ? (
+                        <input
+                          id="wd-points"
+                          type="number"
+                          className="form-control points-input ms-1"
+                          value={points}
+                          onChange={(e) => setPoints(parseInt(e.target.value))}
+                        />
+                      ) : (
+                        <span>{question.points}</span>
+                      )}
+                    </div>
                   </div>
-                  <div className="d-flex align-items-center">
-                    pts:
-                    {questionNumber === question.questionNumber ? (
-                      <input
-                        id="wd-points"
-                        type="number"
-                        className="form-control points-input ms-1"
-                        value={points}
-                        onChange={(e) => setPoints(parseInt(e.target.value))}
-                      />
-                    ) : (
-                      <span>{question.points}</span>
-                    )}
-                  </div>
-                </div>
-              </li>
-              <li className="list-group-item p-3 ps-1">
-                {questionNumber === question.questionNumber ? (
-                  handleQuestionMessage(question)
-                ) : (
-                  <></>
-                )}
-                <br />
-                <p style={{ fontWeight: 'bold' }}>Question: </p>
-                {questionNumber === question.questionNumber ? (
-                  <textarea
-                    id="wd-question-text"
-                    className="form-control narrow-box tall-box"
-                    onChange={(e) => setQuestionText(e.target.value)}
-                  >
-                    {question.questionText}
-                  </textarea>
-                ) : (
-                  <div>{question.questionText}</div>
-                )}
-                <br />
-                {question.type !== 'Open-Response' ||
-                (questionNumber === question.questionNumber &&
-                  questionToBeEditing.type !== 'Open-Response') ? (
-                  <>
-                    <p style={{ fontWeight: 'bold' }}>Answer: </p>
-                    {questionNumber === question.questionNumber ? (
-                      showAnswerContent(question)
-                    ) : (
-                      <ol>
-                        {question.answerChoices.map(
-                          (
-                            answerObj: { choice: String; isCorrect: Boolean },
-                            idx: number
-                          ) => (
-                            <li
-                              key={idx}
-                              style={{
-                                color: `${
-                                  answerObj.isCorrect ? 'green' : 'black'
-                                }`,
-                              }}
-                            >
-                              {answerObj.choice}
-                            </li>
-                          )
-                        )}
-                      </ol>
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
-                <br />
-              </li>
-              {questionNumber === question.questionNumber ? (
-                <div>
+                </li>
+                <li className="list-group-item p-3 ps-1">
+                  {questionNumber === question.questionNumber ? (
+                    handleQuestionMessage(question)
+                  ) : (
+                    <></>
+                  )}
                   <br />
-                  <button
-                    id="wd-questions-cancel"
-                    className="btn btn-secondary me-2"
-                    onClick={() => setQuestionNumber(0)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    id="wd-questions-update"
-                    className="btn btn-danger"
-                    onClick={() => handleUpdate(question)}
-                  >
-                    Update Question
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
+                  <p style={{ fontWeight: 'bold' }}>Question: </p>
+                  {questionNumber === question.questionNumber ? (
+                    <textarea
+                      id="wd-question-text"
+                      className="form-control narrow-box tall-box"
+                      onChange={(e) => setQuestionText(e.target.value)}
+                    >
+                      {question.questionText}
+                    </textarea>
+                  ) : (
+                    <div>{question.questionText}</div>
+                  )}
+                  <br />
+                  {question.type !== 'Open-Response' ||
+                  (questionNumber === question.questionNumber &&
+                    questionToBeEditing.type !== 'Open-Response') ? (
+                    <>
+                      <p style={{ fontWeight: 'bold' }}>Answer: </p>
+                      {questionNumber === question.questionNumber ? (
+                        showAnswerContent(question)
+                      ) : (
+                        <ol>
+                          {question.answerChoices.map(
+                            (
+                              answerObj: { choice: String; isCorrect: Boolean },
+                              idx: number
+                            ) => (
+                              <li
+                                key={idx}
+                                style={{
+                                  color: `${
+                                    answerObj.isCorrect ? 'green' : 'black'
+                                  }`,
+                                }}
+                              >
+                                {answerObj.choice}
+                              </li>
+                            )
+                          )}
+                        </ol>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <br />
+                </li>
+                {questionNumber === question.questionNumber ? (
+                  <div>
+                    <br />
+                    <button
+                      id="wd-questions-cancel"
+                      className="btn btn-secondary me-2"
+                      onClick={() => setQuestionNumber(0)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      id="wd-questions-update"
+                      className="btn btn-danger"
+                      onClick={() => handleUpdate(question)}
+                    >
+                      Update Question
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
 
-              <br />
-            </ul>
-          ))}
+                <br />
+              </ul>
+            );
+          })}
         </div>
       </div>
     </div>
