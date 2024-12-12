@@ -7,6 +7,7 @@ import { CgPentagonRight } from 'react-icons/cg';
 import { useState } from 'react';
 import MultipleChoiceQuestion from './MultipleChoice';
 import { useSelector } from 'react-redux';
+import FillInTheBlank from './FillInTheBlank';
 
 export default function ActiveQuiz() {
   const { qid } = useParams();
@@ -48,6 +49,8 @@ export default function ActiveQuiz() {
           );
         }
         return <MultipleChoiceQuestion question={currentQuestion} />;
+      case 'Fill-In-The-Blank':
+        return <FillInTheBlank question={currentQuestion} />;
       default:
         return <p>Invalid Question Type: {currentQuestion.type}</p>;
     }
