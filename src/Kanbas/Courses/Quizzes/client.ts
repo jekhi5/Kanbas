@@ -21,3 +21,11 @@ export const updateQuiz = async (quiz: any) => {
   );
   return data;
 };
+
+export const updateQuestion = async (quiz: any, question: any) => {
+  const { data } = await axiosWithCredentials.put(
+    `${QUIZZES_API}/${quiz._id}/questions/${question._id}`,
+    question
+  );
+  return data;
+};

@@ -7,9 +7,10 @@ import AssignmentEditor from './Assignments/Editor';
 import QuizDetails from './Quizzes/details';
 import QuizEditor from './Quizzes/editor';
 import QuizPreview from './Quizzes/Preview/index';
-import Quiz from './Quizzes/index';
 import { FaAlignJustify } from 'react-icons/fa';
 import PeopleTable from './People/Table';
+import Quizzes from './Quizzes';
+import ActiveQuiz from './Quizzes/Preview';
 import * as courseClient from './client';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -56,7 +57,7 @@ export default function Courses({ courses }: { courses: any[] }) {
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-            <Route path="Quizzes" element={<Quiz />} />
+            <Route path="Quizzes" element={<Quizzes />} />
             <Route path="Quizzes/:qid" element={<QuizDetails />} />
             <Route path="Quizzes/:qid/edit" element={<QuizEditor />} />
             <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />

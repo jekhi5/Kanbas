@@ -22,7 +22,8 @@ export default function Kanbas() {
         const enrolledCourses = await userClient.findCoursesForUser(
           currentUser._id
         );
-        const courses = allCourses.map((course: any) => {
+        const courses = allCourses
+        .map((course: any) => {
           if (enrolledCourses.find((c: any) => c._id === course._id)) {
             return { ...course, enrolled: true };
           } else {

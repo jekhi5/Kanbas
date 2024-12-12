@@ -8,6 +8,7 @@ import * as coursesClient from '../client';
 import * as quizzesClient from './client';
 import { addQuiz, updateQuiz } from './reducer';
 import { Link } from 'react-router-dom';
+import Questions from './Questions';
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
@@ -481,9 +482,12 @@ export default function QuizEditor() {
           <>
             <div className="row mb-3">
               <div className="col">
-                <button id="wd-new-question" className="btn btn-secondary">
-                  + New Question
-                </button>
+                <div className="col">
+                  <Questions
+                    questions={questions}
+                    setQuestions={setQuestions}
+                  />
+                </div>
               </div>
             </div>
             <hr />
