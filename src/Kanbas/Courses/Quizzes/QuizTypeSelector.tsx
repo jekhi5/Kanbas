@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { quizzes } from '../../Database';
 
 const QuizTypeSelector = () => {
   const { qid } = useParams();
 
   // Find the quiz based on the qid
-  const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const quiz = quizzes.find((quiz) => quiz._id === qid);
 
   // Use useEffect to set the state based on quiz
   const [selectedQuizType, setSelectedQuizType] = useState('');
