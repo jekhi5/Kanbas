@@ -2,7 +2,10 @@ import { IoEllipsisVertical } from 'react-icons/io5';
 import GreenCheckmark from '../GreenCheckmark';
 import { useParams } from 'react-router';
 import { deleteQuiz, updateQuiz } from './client';
+import * as client from './client'
+
 import { BsSignDoNotEnter } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
 export default function QuizControlButtons({
   quiz,
   fetchQuizzes,
@@ -11,6 +14,14 @@ export default function QuizControlButtons({
   fetchQuizzes: () => void;
 }) {
   const { cid } = useParams();
+  const dispatch = useDispatch();
+
+
+  const handleDeleteQuiz = (quizId: string) => {
+    client.deleteQuiz(quizId).then(async (status) => {
+        dispatch(await deleteQuiz(quizId));
+    });
+};
   return (
     <div className="float-end">
       {quiz.isPublished ? <GreenCheckmark /> : <BsSignDoNotEnter />}
@@ -37,7 +48,7 @@ export default function QuizControlButtons({
             <button
               id="wd-publish-modules-only-button"
               className="dropdown-item"
-              onClick={() => deleteQuiz(quiz._id)}
+              onClick={() => handleDeleteQuiz(quiz._id)}
             >
               Delete
             </button>

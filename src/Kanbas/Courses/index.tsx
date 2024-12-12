@@ -10,10 +10,10 @@ import QuizPreview from './Quizzes/Preview/index';
 import { FaAlignJustify } from 'react-icons/fa';
 import PeopleTable from './People/Table';
 import Quizzes from './Quizzes';
-import ActiveQuiz from './Quizzes/Preview';
 import * as courseClient from './client';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import QuizResults from './Quizzes/Preview/QuizResults';
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -63,6 +63,7 @@ export default function Courses({ courses }: { courses: any[] }) {
             <Route path="Quizzes/:qid/preview" element={<QuizPreview />} />
             <Route path="Assignments/new" element={<AssignmentEditor />} />
             <Route path="Quizzes/new" element={<QuizEditor />} />
+            <Route path="Quizzes/:qid/results" element={<QuizResults />} />
             <Route
               path="People"
               element={<PeopleTable users={enrolledUsers} />}
