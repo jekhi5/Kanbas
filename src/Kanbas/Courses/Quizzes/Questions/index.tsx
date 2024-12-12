@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { BsPencilSquare } from 'react-icons/bs';
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import TrueFalseAnswer from './TrueFalseAnswer';
 import FillInTheBlank from './FillInTheBlankAnswers';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
@@ -161,7 +161,6 @@ export default function Questions({
       <div className="d-flex">
         <div className="p-6 align-items-stretch w-75">
           {questions.map((question: any, idx: number) => {
-            console.log('QUESTION: ', question);
             return (
               <ul
                 className="wd-assignments list-group rounded-0"
@@ -183,6 +182,28 @@ export default function Questions({
                     }}
                   >
                     <BsPencilSquare size={16} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      const curNum = question.questionNumber;
+                      const newQuestions = questions
+                        .filter((q) => q.questionNumber !== curNum)
+                        .map((q) =>
+                          q.questionNumber > curNum
+                            ? { ...q, questionNumber: q.questionNum - 1 }
+                            : q
+                        );
+                      setQuestions(newQuestions);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginLeft: 'auto',
+                      color: 'green',
+                    }}
+                  >
+                    <BsTrash size={16} />
                   </button>
                   <div className="mb-3 ps-3 ps-1 d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
