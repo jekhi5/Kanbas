@@ -1,11 +1,9 @@
-import { useParams } from 'react-router-dom';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import TrueFalseAnswer from './TrueFalseAnswer';
 import FillInTheBlank from './FillInTheBlankAnswers';
 import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import './index.css';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 export default function Questions({
   questions,
@@ -14,10 +12,6 @@ export default function Questions({
   questions: any[];
   setQuestions: (questions: any) => void;
 }) {
-  const { qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
-
   const [questionToBeEditing, setQuestionToBeEditing] = useState({
     questionNumber: -1,
     questionText: '',
@@ -49,10 +43,6 @@ export default function Questions({
       setAnswerChoices(questionToBeEditing.answerChoices);
     }
   }, [questionNumber, questionToBeEditing, questions.length]);
-
-  if (!quiz) {
-    return <div>Quiz not found!</div>;
-  }
 
   const handleQuestionMessage = (question: any) => {
     switch (question.type) {
@@ -87,10 +77,6 @@ export default function Questions({
         );
     }
   };
-
-  if (!quiz.questions) {
-    return <div></div>;
-  }
 
   const showAnswerContent = (questionObj: any) => {
     switch (questionObj.type) {
@@ -161,6 +147,7 @@ export default function Questions({
       <div className="d-flex">
         <div className="p-6 align-items-stretch w-75">
           {questions.map((question: any, idx: number) => {
+            console.log('question: ', question);
             return (
               <ul
                 className="wd-assignments list-group rounded-0"

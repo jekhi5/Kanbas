@@ -63,8 +63,9 @@ export default function Quizzes() {
                       </a>
                     </h3>
                     <span className="text-danger"> Multiple Modules </span> |{' '}
-                    {Date.parse(quiz.releaseDate.replace(/-/g, ' ')) >
-                    todaysDate ? (
+                    {quiz.releaseDate &&
+                    Date.parse(quiz.releaseDate.replace(/-/g, ' ')) >
+                      todaysDate ? (
                       <span>
                         <b>Not Available until </b>
                         {format(quiz.releaseDate, "MMMM d 'at' hh:mma") + ' |'}
