@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { addAssignment, updateAssignment } from './reducer';
 import * as coursesClient from '../client';
 import * as assignmentsClient from './client';
-import { formatDistance } from 'date-fns/formatDistance';
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
