@@ -27,25 +27,24 @@ export default function QuizEditor() {
   const [points, setPoints] = useState('');
   const [quizType, setQuizType] = useState('Graded');
   const [description, setDescription] = useState('');
-  const [shuffleAnswers, setShuffleAnswers] = useState('');
+  const [shuffleAnswers, setShuffleAnswers] = useState(false);
   const [submissionType, setSubmissionType] = useState('Online');
   const [displayGradeAs, setDisplayGradeAs] = useState('Percentage');
   const [onlineEntryOptions, setOnlineEntryOptions] = useState([]);
   const [assignTo, setAssignTo] = useState('Everyone');
   const [availableUntil, setAvailableUntil] = useState('');
-  const [availableFrom, setAvailableFrom] = useState('');
   const [assignmentGroup, setAssignmentGroup] = useState('');
-  const [requireTimeLimit, setRequireTimeLimit] = useState('');
-  const [timeLimitInMinutes, setTimeLimitInMinutes] = useState('');
-  const [multipleAttempts, setMultipleAttempts] = useState('');
+  const [requireTimeLimit, setRequireTimeLimit] = useState(false);
+  const [timeLimitInMinutes, setTimeLimitInMinutes] = useState(Infinity);
+  const [multipleAttempts, setMultipleAttempts] = useState(false);
   const [numberOfAllowedAttempts, setNumberOfAllowedAttempts] = useState(1);
-  const [viewResponses, setViewResponses] = useState('');
-  const [showCorrectAnswers, setShowCorrectAnswers] = useState('');
-  const [oneQuestionAtATime, setOneQuestionAtATime] = useState('');
-  const [requireLockdownBrowser, setRequireLockdownBrowser] = useState('');
-  const [requireToViewResults, setRequireToViewResults] = useState('');
-  const [requireWebcam, setRequireWebcam] = useState('');
-  const [lockAfterAnswering, setLockAfterAnswering] = useState('');
+  const [viewResponses, setViewResponses] = useState(false);
+  const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+  const [oneQuestionAtATime, setOneQuestionAtATime] = useState(false);
+  const [requireLockdownBrowser, setRequireLockdownBrowser] = useState(false);
+  const [requireToViewResults, setRequireToViewResults] = useState(false);
+  const [requireWebcam, setRequireWebcam] = useState(false);
+  const [lockAfterAnswering, setLockAfterAnswering] = useState(false);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -62,7 +61,6 @@ export default function QuizEditor() {
       setDisplayGradeAs(quiz.displayGradeAs);
       setOnlineEntryOptions(quiz.onlineEntryOptions);
       setAssignTo(quiz.assignTo);
-      setAvailableFrom(quiz.availableFrom);
       setAvailableUntil(quiz.availableUntil);
       setAssignmentGroup(quiz.assignmentGroup);
       setRequireTimeLimit(quiz.requireTimeLimit);
@@ -96,7 +94,6 @@ export default function QuizEditor() {
       displayGradeAs,
       onlineEntryOptions,
       assignTo,
-      availableFrom,
       availableUntil,
       assignmentGroup,
       requireTimeLimit,
@@ -284,9 +281,7 @@ export default function QuizEditor() {
                         id="wd-shuffle-answers"
                         className="form-check-input"
                         checked={shuffleAnswers.toString() === 'true'}
-                        onChange={(e) =>
-                          setShuffleAnswers(e.target.checked.toString())
-                        }
+                        onChange={(e) => setShuffleAnswers(e.target.checked)}
                       />
                     </div>
                     <div className="col">
@@ -309,9 +304,9 @@ export default function QuizEditor() {
                         value={timeLimitInMinutes}
                         onChange={(e) => {
                           const willRequireTimeLimit = !requireTimeLimit;
-                          setRequireTimeLimit(e.target.checked.toString());
+                          setRequireTimeLimit(e.target.checked);
                           if (!willRequireTimeLimit) {
-                            setTimeLimitInMinutes(Infinity.toString());
+                            setTimeLimitInMinutes(Infinity);
                           }
                         }}
                       />
@@ -338,13 +333,17 @@ export default function QuizEditor() {
                       </div>
                       <div className="col">
                         <input
-                          type="text"
+                          type="number"
                           id="wd-time-limit-minutes"
                           className="form-control"
                           value={timeLimitInMinutes}
-                          onChange={(e) =>
-                            setTimeLimitInMinutes(e.target.value)
-                          }
+                          onChange={(e) => {
+                            try {
+                              setTimeLimitInMinutes(parseInt(e.target.value));
+                            } catch {
+                              setTimeLimitInMinutes(Infinity);
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -359,7 +358,7 @@ export default function QuizEditor() {
                         checked={multipleAttempts.toString() === 'true'}
                         onChange={(e) => {
                           const allowMultipleAttempts = !multipleAttempts;
-                          setMultipleAttempts(e.target.checked.toString());
+                          setMultipleAttempts(e.target.checked);
                           if (!allowMultipleAttempts) {
                             setNumberOfAllowedAttempts(1);
                           }
@@ -388,7 +387,7 @@ export default function QuizEditor() {
                       </div>
                       <div className="col">
                         <input
-                          type="text"
+                          type="number"
                           id="wd-numberOfAttempts"
                           className="form-control"
                           value={numberOfAllowedAttempts}
@@ -427,7 +426,7 @@ export default function QuizEditor() {
                 <input
                   type="date"
                   id="wd-due-date"
-                  value={dueDate ? format(new Date(dueDate), 'yyyy-MM-dd') : ''}
+                  value={dueDate}
                   className="form-control mb-3"
                   onChange={(e) => setDueDate(e.target.value)}
                 />
@@ -438,13 +437,9 @@ export default function QuizEditor() {
                     <input
                       type="date"
                       id="wd-available-from"
-                      value={
-                        availableFrom
-                          ? format(new Date(availableFrom), 'yyyy-MM-dd')
-                          : ''
-                      }
+                      value={releaseDate}
                       className="form-control"
-                      onChange={(e) => setAvailableFrom(e.target.value)}
+                      onChange={(e) => setReleaseDate(e.target.value)}
                     />
                   </div>
                   <div className="col-md-6">
@@ -452,11 +447,7 @@ export default function QuizEditor() {
                     <input
                       type="date"
                       id="wd-available-until"
-                      value={
-                        availableUntil
-                          ? format(new Date(availableUntil), 'yyyy-MM-dd')
-                          : ''
-                      }
+                      value={availableUntil}
                       className="form-control"
                       onChange={(e) => setAvailableUntil(e.target.value)}
                     />
