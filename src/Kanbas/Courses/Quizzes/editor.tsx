@@ -3,12 +3,13 @@ import { SetStateAction, useState } from 'react';
 import ThreeDotsElement from './ThreeDotsElement';
 import NotPublishedElement from './NotPublishedElement';
 import { useParams } from 'react-router';
-import { quizzes } from '../../Database';
+import { useSelector } from 'react-redux';
 
 export default function QuizEditor() {
   const { qid } = useParams();
 
-  const quiz = quizzes.find((quiz) => quiz._id === qid);
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
   // Tab management
   const [activeTab, setActiveTab] = useState('details');

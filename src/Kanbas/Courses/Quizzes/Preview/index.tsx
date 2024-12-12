@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { quizzes } from '../../../Database';
 import { Moment } from 'moment';
 import TrueFalseQuestion from './TrueFalse';
 import OpenResponse from './OpenResponse';
@@ -7,10 +6,12 @@ import moment from 'moment';
 import { CgPentagonRight } from 'react-icons/cg';
 import { useState } from 'react';
 import MultipleChoiceQuestion from './MultipleChoice';
+import { useSelector } from 'react-redux';
 
 export default function ActiveQuiz() {
   const { qid } = useParams();
-  const quiz = quizzes.find((quiz) => quiz._id === qid);
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   if (!quiz) {
