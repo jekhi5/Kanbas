@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import { TbPencilCheck } from "react-icons/tb";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { updateQuiz } from "../reducer";
+import * as quizClient from "../client"
 
 interface Answer {
     text: string;
@@ -8,12 +12,29 @@ interface Answer {
 }
 
 export default function MultipleChoiceAnswers (question: any) {
-    const [answers, setAnswers] = useState<Answer[]>(question?.answers?.map((answer: string) => ({ text: answer, isCorrect: false })) || []);
+    const { qid } = useParams();
+    const { quizzes } = useSelector((state: any) => state.quizReducer);
+    const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+    const [answers, setAnswers] = useState<Answer[]>(
+        question.answerChoices?.map((answerChoiceObj: any) => ({
+          text: answerChoiceObj.choice,
+          isCorrect: answerChoiceObj.isCorrect,
+        })) || []
+      );
     
-    const handleAnswerChange = (index: number, value: string) => {
+    console.log(question);
+    console.log(answers);
+    
+    const handleAnswerChange = async (index: number, value: string) => {
         const newAnswers = [...answers];
         newAnswers[index].text = value;
-        setAnswers(newAnswers);
+        const updatedQuiz = {
+            ...quiz,
+            ...newAnswers,
+          };
+          setAnswers(newAnswers);
+          await quizClient.updateQuiz(updatedQuiz);
+          dispatch(updateQuiz(updatedQuiz));
     };
 
     const addAnswer = () => {
@@ -26,7 +47,7 @@ export default function MultipleChoiceAnswers (question: any) {
     };
 
     const toggleCorrectAnswer = (index: number) => {
-        const newAnswers = answers.map((answer, i) => ({
+        const newAnswers = answers?.map((answer, i) => ({
             ...answer,
             isCorrect: i === index ? !answer.isCorrect : false,
         }));
@@ -73,3 +94,7 @@ export default function MultipleChoiceAnswers (question: any) {
         </div>
     );
 };
+function dispatch(arg0: { payload: any; type: "quizzes/updateQuiz"; }) {
+    throw new Error("Function not implemented.");
+}
+

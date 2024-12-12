@@ -6,14 +6,14 @@ import Assignments from './Assignments';
 import AssignmentEditor from './Assignments/Editor';
 import QuizDetails from './Quizzes/details';
 import QuizEditor from './Quizzes/editor';
-import QuizPreview from './Quizzes/Preview/index'
+import QuizPreview from './Quizzes/Preview/index';
 import { FaAlignJustify } from 'react-icons/fa';
 import PeopleTable from './People/Table';
-import * as db from '../Database';
 import Quizzes from './Quizzes';
 import ActiveQuiz from './Quizzes/Preview';
 import * as courseClient from './client';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -21,9 +21,9 @@ export default function Courses({ courses }: { courses: any[] }) {
   const [enrolledUsers, setEnrolledUsers] = useState<any[]>([]);
 
   const course = courses.find((course) => course._id === cid);
-  const quizzes = db.quizzes;
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quizId = pathname.split('/')[5];
-  const quiz = quizzes.find((quiz) => quiz._id === quizId);
+  const quiz = quizzes.find((quiz: any) => quiz._id === quizId);
 
   useEffect(() => {
     const fetchUsers = async () => {

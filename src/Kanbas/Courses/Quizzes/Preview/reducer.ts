@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { quizzes } from '../../../Database';
+/*import { quizzes } from '../../../Database';
 const initialState = {
   quizzes: quizzes,
 };
@@ -26,4 +26,4 @@ const quizSlice = createSlice({
   },
 });
 export const { addAnswer } = quizSlice.actions;
-export default quizSlice.reducer;
+export default quizSlice.reducer;*/

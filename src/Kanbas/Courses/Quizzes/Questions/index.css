@@ -161,3 +161,7 @@ h3 {
 .add-button:hover {
     color: #a12727;
 }
+.active-question {
+    background-color: #f0fff0; 
+    border: 4px solid #6BA539;
+}

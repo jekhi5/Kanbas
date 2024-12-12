@@ -1,17 +1,18 @@
-import { useParams } from "react-router-dom";
-import * as db from "../../../Database";
-import { Moment } from "moment";
-import TrueFalseQuestion from "./TrueFalse";
-import OpenResponse from "./OpenResponse";
-import moment from "moment";
-import { CgPentagonRight } from "react-icons/cg";
-import { useState } from "react";
-import MultipleChoiceQuestion from "./MultipleChoice";
+import { useParams } from 'react-router-dom';
+import { Moment } from 'moment';
+import TrueFalseQuestion from './TrueFalse';
+import OpenResponse from './OpenResponse';
+import moment from 'moment';
+import { CgPentagonRight } from 'react-icons/cg';
+import { useState } from 'react';
+import MultipleChoiceQuestion from './MultipleChoice';
+import { useSelector } from 'react-redux';
 
 export default function ActiveQuiz() {
-    const { qid } = useParams();
-    const quiz = db.quizzes.find((quiz) => quiz._id === qid);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const { qid } = useParams();
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     if (!quiz) {
         return <div>Quiz not found!</div>

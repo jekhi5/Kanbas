@@ -1,15 +1,21 @@
 import { useParams } from "react-router-dom";
-import * as db from "../../../Database";
+// import * as db from "../../../Database";
+import { BsPencilSquare } from "react-icons/bs";
 import TrueFalseAnswer from "./TrueFalseAnswer";
 import FillinTheBlank from "./FillinTheBlankAnswers";
 import MultipleChoiceAnswers from "./MultipleChoiceAnswers";
 import './index.css';
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { updateQuestion } from "../client";
 
 export default function Questions() {
     const { qid } = useParams();
-    const quiz = db.quizzes.find((quiz) => quiz._id === qid);
+    const { quizzes } = useSelector((state: any) => state.quizReducer);
+
+    const quiz = quizzes.find((quiz: any) => quiz._id === qid);
     const [questionType, setQuestionType] = useState<string>(quiz?.questions[0]?.type || 'multiple-choice');
+    const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(null);
 
     if (!quiz) {
         return <div>Quiz not found!</div>
@@ -19,13 +25,13 @@ export default function Questions() {
         // quiz.add
     };
 
-    const handlePreviousQuestion = () => {
-        // setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
+    const handleCancel = () => {
+        setActiveQuestionIndex(null);
+    };
 
-    const handleSubmit = () => {
-        alert('submit');
-    }
+    const handleQuestionSelect = (index: number) => {
+        setActiveQuestionIndex(index === activeQuestionIndex ? null : index); // Toggle selection
+    };
 
     const handleQuestionMessage = (question: any) => {
         switch (question.type) {
@@ -71,18 +77,34 @@ export default function Questions() {
         quiz.questions[idx].type = updatedType;
     };
 
+    const handleUpdate = async (question: any) => {
+        await updateQuestion(quiz, question);
+    }
+
 
     return (
         <div id="wd-quiz-questions">
             <div className="d-flex">
                 <div className="p-6 align-items-stretch w-75">
-                {quiz.questions.map((question, idx) => (
+                {quiz.questions.map((question: any, idx: number) => (
                     <ul className="wd-assignments list-group rounded-0" key={idx} style={{ listStyleType: 'none' }}>
                         <li className="list-group-item p-3 ps-1">
+                        <button
+                            onClick={() => handleQuestionSelect(idx)}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    marginLeft: "auto",
+                                    color: activeQuestionIndex === idx ? "green" : "black",
+                                }}
+                             >
+                                <BsPencilSquare size={16} />
+                            </button>
                         <div className="mb-3 ps-3 ps-1 d-flex align-items-center justify-content-between">
                             <div className="d-flex align-items-center">
-                                <input id="wd-quiz-title" className="form-control me-2" value={question.title} />
-                                <select id="wd-quiz-type" className="form-select"
+                                <div id="wd-quiz-title" className="form-control me-2"> {idx} </div>
+                                <select id="wd-quiz-type" className="form-select" style={{width: 200}}
                                     onChange={(e) => handleQuestionTypeChange(e, idx)}>
                                     {question.type && <option value={question.type}>{question.type}</option>}
                                     <option value="multiple-choice">True-False</option>
@@ -118,10 +140,12 @@ export default function Questions() {
                         </li>
                         <div>
                         <br />
-                            <button id="wd-questions-cancel" className="btn btn-secondary me-2">
+                            <button id="wd-questions-cancel" className="btn btn-secondary me-2"
+                                onClick={handleCancel}>
                                 Cancel
                             </button>
-                            <button id="wd-questions-update" className="btn btn-danger">
+                            <button id="wd-questions-update" className="btn btn-danger"
+                                onClick={() => handleUpdate(question)}>
                                 Update Question
                             </button>
                         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addAnswer } from "./reducer";
+// import { addAnswer } from "./reducer";
 
 export default function MultipleChoiceQuestion({ qid, question }: any) {
         const [ answer, setAnswer ] = useState<string>(question.answer || "");
@@ -8,11 +8,11 @@ export default function MultipleChoiceQuestion({ qid, question }: any) {
         const dispatch = useDispatch();
         useEffect (() => {
             if (answer !== question.answer) {
-                dispatch(addAnswer({
+                /*dispatch(addAnswer({
                     quizId: qid,
                     questionNum: question.number,
                     ans: answer,
-                }));
+                }));*/
             }
         }, [answer, question.answer, question.number, qid, dispatch]);
 

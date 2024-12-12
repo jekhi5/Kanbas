@@ -6,13 +6,9 @@ interface Answer {
     isCorrect: boolean;
 }
 
-interface QuestionProps {
-    answers?: string[];
-}
-
-export default function FillinTheBlank({ question }: { question: QuestionProps }) {
+export default function FillinTheBlank( question: any) {
     const [answers, setAnswers] = useState<Answer[]>(
-        question?.answers?.map((answer) => ({ text: answer, isCorrect: false })) || []
+        question?.answersChoices?.map((answer: any) => ({ text: answer.choice, isCorrect: answer.isCorrect })) || []
     );
 
     const handleAnswerChange = (index: number, value: string) => {
