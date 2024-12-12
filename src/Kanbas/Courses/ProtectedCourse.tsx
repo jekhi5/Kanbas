@@ -1,27 +1,29 @@
 import { useSelector } from 'react-redux';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 export default function ProtectedCourse({
   children,
-  enrollments,
+  enrolledUsers,
 }: {
   children: any;
-  enrollments: any[];
+  enrolledUsers: any[];
 }) {
-  const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  console.log(
+    'enrolledUsers.id',
+    enrolledUsers.map((user) => user._id)
+  );
+
+  console.log('currentUser._id: ', currentUser._id);
   if (!currentUser) {
     return <Navigate to="/Kanbas/Account/Signin" />;
-  } else if (
-    currentUser.role === 'FACULTY' ||
-    enrollments.some(
-      (enrollment: any) =>
-        enrollment &&
-        enrollment.user === currentUser._id &&
-        enrollment.course === cid
-    )
-  ) {
-    return children;
-  } else {
-    return <Navigate to="/Kanbas/Dashboard" />;
   }
+
+  return enrolledUsers.some(
+    (user: any) => user && user._id === currentUser._id
+  ) ? (
+    children
+  ) : (
+    <Navigate to="/Kanbas/Dashboard" />
+  );
 }

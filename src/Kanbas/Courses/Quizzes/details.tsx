@@ -1,9 +1,10 @@
 import { useParams } from 'react-router';
-import { quizzes } from '../../Database';
 import { Link } from 'react-router-dom';
 import QuizEditorButton from './QuizEditorButton';
+import { useSelector } from 'react-redux';
 export default function QuizDetails() {
   const { cid, qid } = useParams();
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
   return !quiz ? (
     <div>No quiz found!</div>
@@ -46,7 +47,7 @@ export default function QuizDetails() {
           </tr>
           <tr>
             <td className="fw-bold text-end">Shuffle Answers</td>
-            <td className="text-start">{quiz.shuffleAnswers ?? 'Unknown'}</td>
+            <td className="text-start">{quiz.shuffleAnswers ? 'Yes' : 'No'}</td>
           </tr>
           <tr>
             <td className="fw-bold text-end">Time Limit</td>
@@ -64,12 +65,12 @@ export default function QuizDetails() {
           </tr>
           <tr>
             <td className="fw-bold text-end">View Responses</td>
-            <td className="text-start">{quiz.viewResponses ?? 'Unknown'}</td>
+            <td className="text-start">{quiz.viewResponses ? 'Yes' : 'No'}</td>
           </tr>
           <tr>
             <td className="fw-bold text-end">Show Correct Answers</td>
             <td className="text-start">
-              {quiz.showCorrectAnswers ?? 'Unknown'}
+              {quiz.showCorrectAnswers ? 'Yes' : 'No'}
             </td>
           </tr>
           <tr>
