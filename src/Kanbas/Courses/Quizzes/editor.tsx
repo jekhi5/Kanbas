@@ -486,7 +486,10 @@ export default function QuizEditor() {
                   + New Question
                 </button>
                 <div className="col">
-                  <Questions />
+                  <Questions
+                    questions={questions}
+                    setQuestions={setQuestions}
+                  />
                 </div>
               </div>
             </div>
